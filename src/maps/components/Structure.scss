@@ -1,0 +1,59 @@
+.structure {
+    width: 100px;
+    height: 100px;
+    background: coral;
+
+    &-none {
+        display: none;
+        visibility: hidden;
+    }
+
+    &-residential {
+        background-color: lightcyan;
+        border: 0.8px solid blue;
+
+        &_text {
+            color: blue;
+        }
+    }
+
+    &-gym {
+        background-color: lightyellow;
+
+        &_text {
+            color: yellow;
+        }
+    }
+
+    &-medical {
+        background-color: rgb(210, 85, 56);
+
+        &_text {
+            color: orangered;
+        }
+    }
+
+    &-pg {
+        background-color: lightcoral;
+
+        &_text {
+            color: red;
+        }
+    }
+
+    &-rent {
+        background-color: lightskyblue;
+
+        &_text {
+            color: rgb(9, 9, 72);
+        }
+    }
+
+    &-park {
+        background-color: rgb(103, 188, 103);
+    }
+
+    &-commercial {
+        background-color: rgb(95, 246, 231);
+    }
+}

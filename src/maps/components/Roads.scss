@@ -1,0 +1,47 @@
+.road {
+
+    background-color: rgb(31, 30, 30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__main {
+        .stripe {
+            background-color: white;
+            height: 4px;
+            width: 15px;
+
+            &--vertical {
+                transform: rotate(90);
+            }
+        }
+
+        &--included {
+            background-color: lightgreen;
+        }
+
+        &--excluded {
+            background-color: lightcoral;
+        }
+    }
+
+    &__service {
+        .stripe {
+            background-color: yellow;
+            height: 4px;
+            width: 15px;
+
+            &--vertical {
+                transform: rotate(90);
+            }
+        }
+
+        &--included {
+            background-color: lightgreen;
+        }
+
+        &--excluded {
+            background-color: lightcoral;
+        }
+    }
+}
