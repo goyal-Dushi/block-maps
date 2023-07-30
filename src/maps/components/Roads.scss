@@ -15,14 +15,6 @@
                 transform: rotate(90);
             }
         }
-
-        &--included {
-            background-color: lightgreen;
-        }
-
-        &--excluded {
-            background-color: lightcoral;
-        }
     }
 
     &__service {
@@ -35,13 +27,13 @@
                 transform: rotate(90);
             }
         }
+    }
 
-        &--included {
-            background-color: lightgreen;
-        }
+    &--included {
+        background-color: lightgreen;
+    }
 
-        &--excluded {
-            background-color: lightcoral;
-        }
+    &--excluded {
+        background-color: lightcoral;
     }
 }

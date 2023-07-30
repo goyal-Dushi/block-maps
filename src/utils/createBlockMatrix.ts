@@ -1,11 +1,12 @@
 import { Arrangement, Dimension, RoadArrangement } from "../maps/components/BlockMap"
 import { StructureSet } from "../maps/components/Structure";
 import { DblockConfig } from "../maps/sector27/Dblock";
+import MaxHeap from "./maxHeap";
 
 type MatrixType = { isPath: boolean, houseNo?: Set<number> }[][];
 type BlockDict = Record<number, [[number, number]]>;
 
-const blockMatrix = (arrangement: Arrangement,dimensions: Dimension) => {
+const adjacencyMatrix = (arrangement: Arrangement,dimensions: Dimension) => {
 
     const matrix: MatrixType = [];
     const blockIndDict: BlockDict = {};
@@ -55,96 +56,13 @@ const blockMatrix = (arrangement: Arrangement,dimensions: Dimension) => {
     }
     return {
         matrix, 
-        blockDict: blockIndDict
+        adjacencyDict: blockIndDict
     };
 }
 
-type PathObj = {
+export type PathObj = {
     len: number,
     path: Array<[number, number]>
-}
-
-class MaxHeap{
-    private heap: Array<PathObj> = [];
-    constructor(){
-        this.heap = [];
-    }
-
-    insert(path: Array<[number, number]>){
-        const pathLen = path.length;
-        const pathObj: PathObj = { len: pathLen, path };
-        this.heap.push(pathObj);
-
-        this.heapifyAfterInsert();
-    }
-
-    clearHeap(){
-        this.heap.splice(0);
-    }
-
-    getHeapTop(): PathObj{
-        return this.heap[0];
-    }
-
-    getHeapMax(){
-        const maxHeap = JSON.parse(JSON.stringify(this.heap[0])) as PathObj;
-        const heapLen = this.heap.length;
-        this.swap(0, heapLen-1);
-        this.heap.pop();
-        this.heapifyAfterRemove();
-        return maxHeap
-    }
-
-    private heapifyAfterInsert(){
-        const heapLen = this.heap.length;
-        let i = heapLen-1;
-        while(i >= 1 && (this.heap[Math.floor((i-1)/2)].len < this.heap[i].len)){
-            this.swap(Math.floor((i-1/2)), i);
-            i = Math.floor((i-1)/2)
-        }
-    }
-
-    private findMax(obj1: PathObj, Obj2:PathObj, obj3:PathObj):PathObj{
-        const arr = [obj1, Obj2, obj3];
-
-        // since at max, only 3 objects, so 3log(3) == constant
-        arr.sort((a: PathObj, b: PathObj) => b.len - a.len);
-
-        return arr[0];
-    }
-
-    private heapifyAfterRemove() {
-        const heapLen = this.heap.length;
-        let i = 0;
-        while ((2 * i + 1) < heapLen) {
-            const leftChild: number = (2 * i) + 1;
-            const rightChild: number = (2 * i) + 2;
-            let currMax: PathObj = { len: 0, path: [] };
-
-            // Compare lengths in the opposite way to achieve max heap
-            if (rightChild < heapLen) {
-                currMax = this.findMax(this.heap[i], this.heap[leftChild], this.heap[rightChild]);
-            } else {
-                currMax = this.findMax(this.heap[i], this.heap[leftChild], currMax);
-            }
-
-            if (currMax.len === this.heap[i].len) { // Compare using strict equality
-                break;
-            } else if (currMax.len === this.heap[leftChild].len) { // Compare using strict equality
-                this.swap(leftChild, i);
-                i = leftChild;
-            } else {
-                this.swap(rightChild, i);
-                i = rightChild;
-            }
-        }
-    }
-
-    private swap(indexOne: number, indexTwo:number) {
-        const temp = this.heap[indexOne];
-        this.heap[indexOne] = this.heap[indexTwo];
-        this.heap[indexTwo] = temp;
-    }
 }
 
 // DFS : DEPTH FIRST SEARCH
@@ -178,29 +96,66 @@ function findPaths(maxHeap: MaxHeap, dest: [number, number][], destCnt: number, 
     }
 }
 
+function sortObjectByKeys(pathDict: Record<number, number[][]>) {
+    const keysArray = Object.keys(pathDict).map(Number);
+
+    keysArray.sort((a, b) => a - b);
+
+    const sortedObject: Record<number, number[][]> = {};
+    keysArray.forEach((key) => {
+        sortedObject[key] = pathDict[key];
+    });
+
+    return sortedObject;
+}
+
 
 export const getPaths = (source: number, destn: number, matrix: MatrixType, dictionary: BlockDict) => {
     const sourceCoordinate = dictionary[source];
     const destnCoordinate = dictionary[destn];
     const destCordCnt = destnCoordinate.length;
 
-    const paths: Array<[number, number]> = [];
+    const paths: Array<[number, number]> = [[sourceCoordinate[0][0], sourceCoordinate[0][1]]];
     const pathDict: Record<number, number[][]> = {}
     const rows = matrix.length;
     const cols = matrix[0].length;
     const maxHeap = new MaxHeap();
-    console.log('destn cord: ', destnCoordinate, ' src cord:', sourceCoordinate[0]);
-    findPaths(maxHeap, destnCoordinate, destCordCnt, sourceCoordinate[0] ,sourceCoordinate[0][0], sourceCoordinate[0][1], rows, cols, matrix, paths, pathDict);
-    // maxHeap.clearHeap();
-    console.log(pathDict);
-    // maxHeap.clearHeap();
+
+    findPaths(maxHeap,destnCoordinate , destCordCnt, sourceCoordinate[0] ,sourceCoordinate[0][0], sourceCoordinate[0][1], rows, cols, matrix, paths, pathDict);
+    maxHeap.clearHeap();
+
+    sortObjectByKeys(pathDict);
+    // at max 4 results returned
+    const result = Object.keys(pathDict).slice(0, 4).map(key => ({ [key]: pathDict[+key] }));
+
+    return Object.values(result)[0];
+}
+
+export const getCordFromStrHash = (path: string) => {
+    const numbers = path.split('-');
+    const cord1 = parseInt(numbers[0])
+    const cord2  = parseInt(numbers[1])
+    return [cord1, cord2];
+}
+
+export const createCordStrHash = (cord: [number,number]) => {
+    const cordStr = cord[0].toString() + '-' + cord[1].toString();
+    return cordStr;
+}
+
+const cratePathSet = (path: Array<number[]>) => {
+    const pathSet = new Set<string>([]);
+    path.forEach((val) =>{
+        const pathStr = val[0].toString()+'-'+val[1].toString();
+        pathSet.add(pathStr);
+    })
+    return pathSet;
 }
 
 export const solve = () =>{
     const rows = DblockConfig.length;
     const cols = DblockConfig[0].length;
-    console.log('rows: ', rows, ' cols: ', cols);
-    const { matrix, blockDict } = blockMatrix(DblockConfig, { rows, cols });
-    // console.log(blockDict);
-    getPaths(107, 10, matrix, blockDict);
+    const { matrix, adjacencyDict } = adjacencyMatrix(DblockConfig, { rows, cols });
+    const pathSet = cratePathSet(Object.values(getPaths(98, 38, matrix, adjacencyDict))[0]);
+    return pathSet;
 }
