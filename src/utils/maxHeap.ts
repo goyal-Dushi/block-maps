@@ -6,29 +6,13 @@ class MaxHeap {
         this.heap = [];
     }
 
+    // insert element in heap
     insert(path: Array<[number, number]>) {
         const pathLen = path.length;
         const pathObj: PathObj = { len: pathLen, path };
         this.heap.push(pathObj);
 
         this.heapifyAfterInsert();
-    }
-
-    clearHeap() {
-        this.heap.splice(0);
-    }
-
-    getHeapTop(): PathObj {
-        return this.heap[0];
-    }
-
-    getHeapMax() {
-        const maxHeap = JSON.parse(JSON.stringify(this.heap[0])) as PathObj;
-        const heapLen = this.heap.length;
-        this.swap(0, heapLen - 1);
-        this.heap.pop();
-        this.heapifyAfterRemove();
-        return maxHeap
     }
 
     private heapifyAfterInsert() {
@@ -40,13 +24,35 @@ class MaxHeap {
         }
     }
 
-    private findMax(obj1: PathObj, Obj2: PathObj, obj3: PathObj): PathObj {
-        const arr = [obj1, Obj2, obj3];
+    // return current heap size
+    heapSize(){
+        return this.heap.length;
+    }
 
-        // since at max, only 3 objects, so 3log(3) == constant
-        arr.sort((a: PathObj, b: PathObj) => b.len - a.len);
+    // check if heap is empty
+    isEmpty(){
+        return this.heap.length === 0;
+    }
 
-        return arr[0];
+    // clear heap, empty heap
+    clearHeap() {
+        this.heap.splice(0);
+    }
+
+    // return max in heap, but , only for 
+    // checking purpose , not remove from heap
+    getHeapTop(): PathObj {
+        return this.heap[0];
+    }
+
+    // return max path len and remove from heap
+    getHeapMaxPath() {
+        const maxHeap = JSON.parse(JSON.stringify(this.heap[0])) as PathObj;
+        const heapLen = this.heap.length;
+        this.swap(0, heapLen - 1);
+        this.heap.pop();
+        this.heapifyAfterRemove();
+        return maxHeap
     }
 
     private heapifyAfterRemove() {
@@ -64,9 +70,9 @@ class MaxHeap {
                 currMax = this.findMax(this.heap[i], this.heap[leftChild], currMax);
             }
 
-            if (currMax.len === this.heap[i].len) { // Compare using strict equality
+            if (currMax.len === this.heap[i].len) { 
                 break;
-            } else if (currMax.len === this.heap[leftChild].len) { // Compare using strict equality
+            } else if (currMax.len === this.heap[leftChild].len) {
                 this.swap(leftChild, i);
                 i = leftChild;
             } else {
@@ -74,6 +80,16 @@ class MaxHeap {
                 i = rightChild;
             }
         }
+    }
+
+    // utility functions 
+    private findMax(obj1: PathObj, Obj2: PathObj, obj3: PathObj): PathObj {
+        const arr = [obj1, Obj2, obj3];
+
+        // since at max, only 3 objects, so 3log(3) == constant
+        arr.sort((a: PathObj, b: PathObj) => b.len - a.len);
+
+        return arr[0];
     }
 
     private swap(indexOne: number, indexTwo: number) {
