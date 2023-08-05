@@ -1,7 +1,7 @@
 import React from "react";
 import './Structure.scss';
 
-export interface StructureProps {
+interface StructureProps {
     x?: number;
     y?: number;
     type: StructureTypes;
@@ -9,8 +9,7 @@ export interface StructureProps {
     classes?: string;
 }
 
-export const StructureSet = new Set(["residential" , "medical" , "pg" , "rent" ,"gym" , "park" , "none" , "commercial"]);
-
+export const STRUCTURE_SET = new Set(["residential" , "medical" , "pg" , "rent" ,"gym" , "park" , "none" , "commercial"]);
 export type StructureTypes = "residential" | "medical" | "pg" | "rent" | "gym" | "park" | "none" | "commercial";
 
 const Structure: React.FC<StructureProps>  = (props) => {
@@ -21,7 +20,7 @@ const Structure: React.FC<StructureProps>  = (props) => {
     }
     
     return(
-        <div className={`structure structure-${type} ${type} d-flex align-items-center justify-content-center ${classes}`} style={{ width: `${x*50}px`, height: `${y*50}px`}}>
+        <div className={`structure structure-${type} d-flex align-items-center justify-content-center ${classes}`} style={{ width: `${x*50}px`, height: `${y*50}px`}}>
                 <>
                 <span className={`structure-${type}_text`}> {structureNo} </span>
                 {/* <svg role="button" onClick={() => { return handleInfoClick(type, structureNo) }} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className={`bi bi-info-circle-fill structure-${type}_text`} viewBox="0 0 16 16">

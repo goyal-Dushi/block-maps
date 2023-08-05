@@ -1,0 +1,84 @@
+.structure {
+    width: 100px;
+    height: 100px;
+    background: coral;
+
+    &.disabled {
+        opacity: 0.4;
+    }
+
+    &-none {
+        display: none;
+        visibility: hidden;
+    }
+
+    &-residential {
+        background: url('../../../../assets/home.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: soft-light;
+
+        &_text {
+            color: black;
+            font-weight: bold;
+        }
+    }
+
+    &-gym {
+        background: url('../../../../assets/gym.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: soft-light;
+
+        &_text {
+            color: yellow;
+        }
+    }
+
+    &-medical {
+        background: url('../../../../assets/hospital.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: soft-light;
+
+        &_text {
+            color: orangered;
+        }
+    }
+
+    &-pg {
+        background: url('../../../../assets/hostel.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: soft-light;
+
+        &_text {
+            color: red;
+        }
+    }
+
+    &-rent {
+        background: url('../../../../assets/rent.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-blend-mode: soft-light;
+
+        &_text {
+            color: rgb(9, 9, 72);
+        }
+    }
+
+    &-park {
+        background: url('../../../../assets/park.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-blend-mode: soft-light;
+    }
+
+    &-commercial {
+        background: url('../../../../assets/cart.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-blend-mode: soft-light;
+    }
+}

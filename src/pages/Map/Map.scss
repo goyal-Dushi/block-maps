@@ -1,0 +1,14 @@
+.page-wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.map-window {
+  max-width: 768px;
+  min-width: 320px;
+  max-height: 500px;
+  width: 90%;
+  overflow: scroll;
+  margin: 30px auto;
+}
