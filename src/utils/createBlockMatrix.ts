@@ -6,35 +6,25 @@ import MaxHeap from "./maxHeap";
 type MatrixType = { isPath: boolean, houseNo?: Set<number> }[][];
 type BlockDict = Record<number, [[number, number]]>;
 
-const adjacencyMatrix = (arrangement: Arrangement,dimensions: Dimension) => {
+const adjacencyMatrix = (arrangement: Arrangement, dimensions: Dimension) => {
 
     const matrix: MatrixType = [];
     const blockIndDict: BlockDict = {};
 
-    for(let i=0; i< dimensions.rows;i++){
+    for (let i = 0; i < dimensions.rows; i++) {
         matrix[i] = [];
         const cols = arrangement[i].length;
-        for(let j=0;j<cols;j++){
+        for (let j = 0; j < cols; j++) {
             const arrObj = arrangement[i][j];
 
             // // if undefined, return
-            if(!arrObj){
+            if (!arrObj) {
                 j += 1
                 continue
             }
             // structure , assign 0
-            if(STRUCTURE_SET.has(arrObj.type)){
-                if(arrObj.x){
-                    const totalX = j+ arrObj.x;
-                    let k = j;
-                    while(k < totalX){
-                        matrix[i].push({ isPath: false, houseNo: new Set([-1]) });
-                        k++;
-                    }
-                } else{
-                    matrix[i].push({ isPath: false, houseNo: new Set([-1]) });
-                    
-                }
+            if (STRUCTURE_SET.has(arrObj.type)) {
+                matrix[i].push({ isPath: false, houseNo: new Set([-1]) });
                 continue;
             }
             // if road / service lane 
@@ -44,9 +34,9 @@ const adjacencyMatrix = (arrangement: Arrangement,dimensions: Dimension) => {
                 if (roadHash?.size) {
                     matrix[i][j] = { ...matrix[i][j], houseNo: roadHash };
                     roadHash.forEach((hash) => {
-                        if(!blockIndDict[hash]){
-                            blockIndDict[hash] = [[i,j]];
-                        }else{
+                        if (!blockIndDict[hash]) {
+                            blockIndDict[hash] = [[i, j]];
+                        } else {
                             blockIndDict[hash].push([i, j]);
                         }
                     })
@@ -55,7 +45,7 @@ const adjacencyMatrix = (arrangement: Arrangement,dimensions: Dimension) => {
         }
     }
     return {
-        matrix, 
+        matrix,
         adjacencyDict: blockIndDict
     };
 }
@@ -73,10 +63,10 @@ function findPaths(maxHeap: MaxHeap, dest: [number, number][], destCnt: number, 
         if (!pathDict[pathLen]) {
             const pathCopy = path.slice();
 
-            if(!maxHeap.isEmpty() && maxHeap.heapSize() == 4){
+            if (!maxHeap.isEmpty() && maxHeap.heapSize() == 4) {
                 const maxPath = maxHeap.getHeapTop();
 
-                if(maxPath.len >= pathLen){
+                if (maxPath.len >= pathLen) {
                     maxHeap.getHeapMaxPath();
 
                     delete pathDict[maxPath.len];
@@ -122,7 +112,7 @@ export const getPaths = (source: number, destn: number, matrix: MatrixType, dict
     const cols = matrix[0].length;
     const maxHeap = new MaxHeap();
 
-    findPaths(maxHeap,destnCoordinate , destCordCnt, sourceCoordinate[0] ,sourceCoordinate[0][0], sourceCoordinate[0][1], rows, cols, matrix, paths, pathDict);
+    findPaths(maxHeap, destnCoordinate, destCordCnt, sourceCoordinate[0], sourceCoordinate[0][0], sourceCoordinate[0][1], rows, cols, matrix, paths, pathDict);
     maxHeap.clearHeap();
 
     // at max 4 results returned
@@ -133,25 +123,25 @@ export const getPaths = (source: number, destn: number, matrix: MatrixType, dict
 export const getCordFromStrHash = (path: string) => {
     const numbers = path.split('-');
     const cord1 = parseInt(numbers[0])
-    const cord2  = parseInt(numbers[1])
+    const cord2 = parseInt(numbers[1])
     return [cord1, cord2];
 }
 
-export const createCordStrHash = (cord: [number,number]) => {
+export const createCordStrHash = (cord: [number, number]) => {
     const cordStr = cord[0].toString() + '-' + cord[1].toString();
     return cordStr;
 }
 
 const cratePathSet = (path: Array<number[]>) => {
     const pathSet = new Set<string>([]);
-    path.forEach((val) =>{
-        const pathStr = val[0].toString()+'-'+val[1].toString();
+    path.forEach((val) => {
+        const pathStr = val[0].toString() + '-' + val[1].toString();
         pathSet.add(pathStr);
     })
     return pathSet;
 }
 
-export const solve = (src: string, destn: string, pathType = '0') =>{
+export const solve = (src: string, destn: string, pathType = '0') => {
     const rows = DblockConfig.length;
     const cols = DblockConfig[0].length;
     const { matrix, adjacencyDict } = adjacencyMatrix(DblockConfig, { rows, cols });
