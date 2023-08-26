@@ -6,14 +6,13 @@ export type Dimension = { cols: number, rows: number };
 export type StructureArrangement = {
     type: StructureTypes;
     structureNo?: string;
-    x?: number;
-    y?: number;
+    entryPnt?: "left" | "right" | "mid";
 }
 
 export type RoadArrangement = {
-    type: RoadType;
-    rotn?: string;
-    roadHash?: Set<number>;
+    type: RoadType; // main or service 
+    rotn?: boolean; // stripe rotn 
+    roadHash?: Set<number>; // houses connected to road
     matrix_x?: number;
     matrix_y?: number;
     x?: number;

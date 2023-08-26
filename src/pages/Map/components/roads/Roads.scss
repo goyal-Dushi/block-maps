@@ -4,6 +4,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 50px;
+    width: 50px !important;
 
     &__main {
         .stripe {
@@ -12,7 +14,7 @@
             width: 15px;
 
             &--vertical {
-                transform: rotate(90);
+                transform: rotate(90deg);
             }
         }
     }
@@ -24,7 +26,7 @@
             width: 15px;
 
             &--vertical {
-                transform: rotate(90);
+                transform: rotate(90deg);
             }
         }
     }
