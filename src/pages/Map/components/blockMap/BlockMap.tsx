@@ -11,23 +11,23 @@ export interface BlockMapProps {
     type?: StructureTypes;
     src?: string;
     destn?: string;
+    zoom: number;
 }
 
 const BlockMap: React.FC<BlockMapProps> = (props) => {
-    const { arrangement, dimension, path, type: paramType, src, destn } = props;
+    const { arrangement, dimension, path, type: paramType, src, destn, zoom } = props;
+
     return (
         <>
-            <div className="container-xl map" style={{ width: `${dimension.cols * 50}px`, height: `${dimension.rows * 50}px` }}>
+            <div className="container-xl map" style={{ width: `${dimension.cols * 50}px`, height: `${dimension.rows * 50}px`, zoom: zoom }}>
                 {arrangement.map((arrRow, rowInd) => {
                     let cordY = -1;
                     return (
                         <div className="row" key={rowInd}>
                             {arrRow.map((block, colInd) => {
                                 cordY += 1;
-                                const { type, x } = block;
-                                if (x) {
-                                    cordY += (x - 1);
-                                }
+                                const { type } = block;
+
                                 if (STRUCTURE_SET.has(type)) {
 
                                     const { structureNo } = block as StructureArrangement;
@@ -40,7 +40,7 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
                                         <Structure classes={classes} key={`${type}-${structureNo}-${colInd}`} {...block} type={type as StructureTypes} structureNo={structureNo} />
                                     )
                                 }
-                                
+
                                 let activePath = '';
                                 const cordHash = createCordStrHash([rowInd, cordY]);
                                 if (path) {
@@ -53,16 +53,16 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
 
                                 let isSrc = false;
                                 let isDestn = false;
-                                if(src){
+                                if (src) {
                                     isSrc = (block as RoadArrangement).roadHash?.has(+src) || false;
                                 }
-                                if(destn){
+                                if (destn) {
                                     isDestn = (block as RoadArrangement).roadHash?.has(+destn) || false
                                 }
 
                                 if (ROAD_SET.has(type)) {
                                     return (
-                                        <Roads isSrc={isSrc} isDestn={isDestn} key={`${type}-${colInd}`} classes={activePath} {...block} type={type as RoadType} />
+                                        <Roads isSrc={isSrc} isDestn={isDestn} key={`${type}-${colInd}`} classes={activePath} {...block as RoadArrangement} type={type as RoadType} />
                                     )
                                 }
 
