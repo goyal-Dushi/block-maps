@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Structure, { STRUCTURE_SET, StructureTypes } from "../structure/Structure";
 import Roads, { ROAD_SET, RoadType } from "../roads/Roads";
 import { createCordStrHash } from "../../../../utils/createBlockMatrix";
@@ -16,6 +16,23 @@ export interface BlockMapProps {
 
 const BlockMap: React.FC<BlockMapProps> = (props) => {
     const { arrangement, dimension, path, type: paramType, src, destn, zoom } = props;
+    const [strtRef, setStrtRef] = useState<React.MutableRefObject<HTMLDivElement | null>
+    >();
+
+
+    const getRef = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
+        ref.current?.scrollIntoView({
+            behavior: 'smooth',
+        });
+        setStrtRef(ref);
+    };
+
+    useLayoutEffect(() => {
+        if (strtRef) {
+            getRef(strtRef);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [zoom]);
 
     return (
         <>
@@ -37,7 +54,7 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
                                     }
 
                                     return (
-                                        <Structure classes={classes} key={`${type}-${structureNo}-${colInd}`} {...block} type={type as StructureTypes} structureNo={structureNo} />
+                                        <Structure classes={classes} key={`${type}-${structureNo}-${colInd}`} {...block as StructureArrangement} type={type as StructureTypes} structureNo={structureNo} />
                                     )
                                 }
 
@@ -62,7 +79,7 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
 
                                 if (ROAD_SET.has(type)) {
                                     return (
-                                        <Roads isSrc={isSrc} isDestn={isDestn} key={`${type}-${colInd}`} classes={activePath} {...block as RoadArrangement} type={type as RoadType} />
+                                        <Roads getStructureRef={getRef} isSrc={isSrc} isDestn={isDestn} key={`${type}-${colInd}`} classes={activePath} {...block as RoadArrangement} type={type as RoadType} />
                                     )
                                 }
 
