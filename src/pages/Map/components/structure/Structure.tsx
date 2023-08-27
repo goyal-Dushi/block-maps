@@ -12,9 +12,6 @@ export type StructureTypes = "residential" | "medical" | "pg" | "rent" | "gym" |
 const Structure: React.FC<StructureProps> = (props) => {
 
     const { type = 'residential', structureNo = '', classes, entryPnt } = props;
-    const handleInfoClick = (type: string, strNo: string) => {
-        console.log(type, strNo);
-    }
 
     return (
         <div className={`structure structure-${type} ${entryPnt ? `structure-${type}_${entryPnt}` : ''} d-flex align-items-center justify-content-center ${classes}`}>

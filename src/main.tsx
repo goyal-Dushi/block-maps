@@ -12,6 +12,7 @@ const router = createBrowserRouter([
     path: "/getMap",
     element: <GetMapInfo />,
     action: getMapInfoAction,
+    errorElement: <ErrorPageURL />
   },
   {
     path: '/map',
