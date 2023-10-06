@@ -1,6 +1,6 @@
 import { ActionFunction, redirect } from "react-router-dom";
 
-export const mapFormAction: ActionFunction = async ({request}) => {
+export const mapFormAction: ActionFunction = async ({ request}) => {
     const formData = await request.formData();
     const url = new URL(request.url);
 

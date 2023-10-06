@@ -37,10 +37,10 @@ const GetMapInfo: React.FC<GetMapInfoProps> = () => {
                         </select>
                     </div>
                     <div className="input-group mb-3">
-                        <input type="number" min={1} name="src" placeholder="Type Source" className="form-control" aria-label="Source" aria-describedby="src to start from"/>
+                        <input type="number" min={1} name="src" placeholder="Type Source" className="form-control" aria-label="Source" aria-describedby="src to start from" />
                     </div>
                     <div className="input-group mb-3">
-                        <input type="number" min={1} name="destn" placeholder="Type Destination" className="form-control" aria-label="Destination" aria-describedby="destination to visit"/>
+                        <input type="number" min={1} name="destn" placeholder="Type Destination" className="form-control" aria-label="Destination" aria-describedby="destination to visit" />
                     </div>
 
                     <button type="submit" className="btn btn-primary" > Submit </button>
