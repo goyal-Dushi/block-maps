@@ -22,9 +22,11 @@ const Roads: React.FC<RoadsProps> = (props) => {
     useEffect(() => {
         if (isSrc) {
             getStructureRef(roadRef);
+        } else if(isDestn){
+            getStructureRef(roadRef);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSrc]);
+    }, [isSrc, isDestn]);
 
     return (
         <div ref={roadRef} className={`road road__${type} ${classes}`} >
