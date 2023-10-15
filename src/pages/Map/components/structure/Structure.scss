@@ -15,25 +15,27 @@
     }
 
     &-residential {
-        background: url('../../../../assets/home.png');
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-blend-mode: soft-light;
+        // background: url('../../../../assets/home.png');
+        // background-repeat: no-repeat;
+        // background-size: cover;
+        // background-blend-mode: soft-light;
+        background: lightgray;
+        border: 1px solid darkgray;
 
-        &_left {
-            background: url('../../../../assets/left_end.png');
-            background-size: cover;
-        }
+        // &_left {
+        //     background: url('../../../../assets/left_end.png');
+        //     background-size: cover;
+        // }
 
-        &_right {
-            background: url('../../../../assets/right_end.png');
-            background-size: cover;
-        }
+        // &_right {
+        //     background: url('../../../../assets/right_end.png');
+        //     background-size: cover;
+        // }
 
-        &_mid {
-            background: url('../../../../assets/mid_house.png');
-            background-size: cover;
-        }
+        // &_mid {
+        //     background: url('../../../../assets/mid_house.png');
+        //     background-size: cover;
+        // }
 
         &_text {
             color: black;
