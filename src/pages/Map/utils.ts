@@ -10,6 +10,8 @@ export const mapFormAction: ActionFunction = async ({ request}) => {
     for(const [key, value] of formData.entries()){
         if(value){
             searchParams.set(key, value as string);
+        } else if(searchParams.has(key)) {
+            searchParams.delete(key);
         }
     }
     

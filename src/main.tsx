@@ -4,16 +4,15 @@ import Map from './pages/Map/Map.tsx'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import './index.scss'
 import ErrorPageURL from './error/Error.tsx';
-import { GetMapInfo, getMapInfoAction } from './pages/GetMapInfo/index.ts';
 import { mapFormAction } from './pages/Map/utils.ts';
 
 const router = createBrowserRouter([
-  {
-    path: "/getMap",
-    element: <GetMapInfo />,
-    action: getMapInfoAction,
-    errorElement: <ErrorPageURL />
-  },
+  // {
+  //   path: "/getMap",
+  //   element: <GetMapInfo />,
+  //   action: getMapInfoAction,
+  //   errorElement: <ErrorPageURL />
+  // },
   {
     path: '/map',
     element: <Map />,
@@ -22,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <Navigate to={"/getMap"} replace />
+    element: <Navigate to={"/map?block=D&sector=27"} replace />
   }
 ])
 
