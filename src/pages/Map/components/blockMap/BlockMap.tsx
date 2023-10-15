@@ -4,12 +4,13 @@ import Roads, { ROAD_SET, RoadType } from "../roads/Roads";
 import { createCordStrHash } from "../../../../utils/createBlockMatrix";
 import { Arrangement, Dimension, RoadArrangement, StructureArrangement } from "./type";
 import Actions from "../actions/Actions";
+import './BlockMap.scss';
 
 export interface BlockMapProps {
     arrangement: Arrangement;
     dimension: Dimension;
     path?: Set<string>;
-    type?: StructureTypes;
+    type?: StructureTypes | undefined;
     src?: string;
     destn?: string;
 }
@@ -22,6 +23,8 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
 
     const getRef = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
         ref.current?.scrollIntoView({
+            block: "center",
+            inline: "center",
             behavior: 'smooth',
         });
         setStrtRef(ref);
