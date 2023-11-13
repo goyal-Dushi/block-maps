@@ -62,7 +62,6 @@ const MapForm: React.FC<MapFormProps> = (props) => {
                 <span className="input-group-text" id="destn">
                         <HouseIcon />
                     </span>
-                    {/* <label className="form-label" htmlFor="src"> {destnVal ? "Lost?" : "Nearest House Number"} </label> */}
                     <input onChange={handleSrcChange} type="number" min={1} value={src} id="src" name="src" placeholder="House Number near me" className="form-control w-100" aria-label="Source" aria-describedby="src to start from" />
                 </div>
                 <div className="form-text"> {destnVal ? "Type in the nearest house number which you can see around you. Make sure the house number typed belongs to same block :)" : "Look around and type in nearest House number you see!"} </div>
@@ -72,9 +71,9 @@ const MapForm: React.FC<MapFormProps> = (props) => {
                 
                 <div className="d-flex flex-column mb-3">
                 <div className="input-group">
-                    <label className="form-label" htmlFor="type"> Select Block </label>
-                    <select disabled name="block" id="block" className="form-select w-100" aria-label="select block">
-                        <option selected value={"D"}> D-Block </option>
+                    <label className="form-label" htmlFor="block"> Select Block </label>
+                    <select defaultValue={'D'} disabled name="block" id="block" className="form-select w-100" aria-label="select block">
+                        <option value={"D"}> D-Block </option>
                     </select>
                 </div>
                     <div className="form-text fst-italic"> Disabled since we only have support for D-Block! </div>
@@ -82,9 +81,9 @@ const MapForm: React.FC<MapFormProps> = (props) => {
                 
                 <div className="d-flex flex-column mb-3">
                 <div className="input-group">
-                    <label className="form-label" htmlFor="type"> Select Sector </label>
-                    <select disabled name="block" id="block" className="form-select w-100" aria-label="select sector">
-                        <option selected value={"27"}> 27 </option>
+                    <label className="form-label" htmlFor="sector"> Select Sector </label>
+                    <select defaultValue={'27'} disabled name="sector" id="sector" className="form-select w-100" aria-label="select sector">
+                        <option value={"27"}> 27 </option>
                     </select>
                 </div>
                 <div className="form-text fst-italic">
