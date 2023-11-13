@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Structure, { STRUCTURE_SET, StructureTypes } from "../structure/Structure";
 import Roads, { ROAD_SET, RoadType } from "../roads/Roads";
 import { createCordStrHash } from "../../../../utils/createBlockMatrix";
@@ -16,12 +16,12 @@ export interface BlockMapProps {
 }
 
 const BlockMap: React.FC<BlockMapProps> = (props) => {
-    const { arrangement, dimension, path, type: paramType, src, destn } = props;
-    const [strtRef, setStrtRef] = useState<React.MutableRefObject<HTMLDivElement | null>
+    const { arrangement, dimension, path, src, destn } = props;
+    const [strtRef, setStrtRef] = useState<React.RefObject<HTMLDivElement>
     >();
     const [zoom, setZoom] = useState(1.0);
 
-    const getRef = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
+    const getRef = (ref: React.RefObject<HTMLDivElement>) => {
         ref.current?.scrollIntoView({
             block: "center",
             inline: "center",
@@ -54,9 +54,9 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
         }
     }
 
-    useLayoutEffect(() => {
-        if (strtRef) {
-            getRef(strtRef);
+    useEffect(() => {
+        if(zoom !== 1.0){
+            handleRecenter();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [zoom]);
@@ -76,8 +76,12 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
 
                                     const { structureNo } = block as StructureArrangement;
                                     let classes = "";
-                                    if (paramType && type !== paramType && (structureNo !== src && structureNo !== destn)) {
-                                        classes += "disabled";
+                                    // if (paramType && type !== paramType && (structureNo !== src && structureNo !== destn)) {
+                                    //     classes += "disabled";
+                                    // }
+
+                                    if(structureNo === src || structureNo === destn){
+                                        classes += ' active';
                                     }
 
                                     return (

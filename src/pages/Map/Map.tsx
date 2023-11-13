@@ -23,12 +23,12 @@ const App: React.FC<AppProps> = () => {
   const destnVal = useMemo(() => {
     return searchParams[0].get('destn');
 }, [searchParams]);
-  
-  const dBLockConfig = useMemo(() => {
-    const rows = DblockConfig.length;
-    const cols = DblockConfig[0].length;
-    return { rows, cols };
-  }, []);
+
+const dBLockConfig = useMemo(() => {
+  const rows = DblockConfig.length;
+  const cols = DblockConfig[0].length;
+  return { rows, cols };
+}, []);
 
   const payload = useMemo(() => {
     const obj: Record<string, string> = {};
@@ -42,21 +42,18 @@ const App: React.FC<AppProps> = () => {
   useEffect(() => {
 
     if (!payload.block || !payload.sector) {
-      navigate("/getMap");
-    }
-    
-    if (payload.type || payload.type === undefined) {
-      setStructType(payload.type as any);
+      navigate("/");
+      return;
     }
 
     if (payload.src && payload.destn) {
-      const set = solve(payload.src, payload.destn, payload.path);
+      const set = solve(payload.src, payload.destn);
       setPathHash(set);
     } else {
       setPathHash(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [payload]);
+  }, [payload.src, payload.destn]);
 
   const handleCanvas = () => {
     setShowCanvas((prev) => {
