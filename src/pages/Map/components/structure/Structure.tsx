@@ -16,7 +16,7 @@ const Structure: React.FC<StructureProps> = (props) => {
     return (
         <div className={`structure structure-${type} ${entryPnt ? `structure-${type}_${entryPnt}` : ''} d-flex align-items-center justify-content-center ${classes}`}>
             <>
-                <span className={`structure-${type}_text`}> {structureNo} </span>
+                <span className={`structure-text ${type}_text`}> {structureNo} </span>
             </>
         </div>
     )
