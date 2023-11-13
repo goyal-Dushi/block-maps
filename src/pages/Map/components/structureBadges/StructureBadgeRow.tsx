@@ -39,10 +39,10 @@ const StructureBadgeRow: React.FC<StructureBadgeRowProps> = () => {
     return(
         <>
             <div className="position-fixed w-100" style={{ top: '5.5rem', zIndex: 100 }}>
-                <div className="d-flex align-items-center w-100 gap-4 badge-container">
+                <div className="d-flex align-items-center w-100 pb-3 gap-4 badge-container">
                     {badges.map((val) => {
                         return(
-                            <span data-val={val} key={`${val}`} role="button" onClick={handleBadgeClick} className={`badge ${selectedVal === val ? 'text-bg-primary' : 'text-bg-secondary'} rounded-pill px-3 py-2 text-capitalize`}>
+                            <span data-val={val} key={`${val}`} role="button" onClick={handleBadgeClick} className={`badge ${selectedVal === val ? 'text-bg-dark' : 'text-bg-light shadow'} rounded-pill px-3 py-2 text-capitalize`}>
                                 {val}
                             </span>
                         )
