@@ -1,6 +1,6 @@
 import { ActionFunction, redirect } from "react-router-dom";
 
-export const mapFormAction: ActionFunction = async ({request}) => {
+export const mapFormAction: ActionFunction = async ({ request}) => {
     const formData = await request.formData();
     const url = new URL(request.url);
 
@@ -10,6 +10,8 @@ export const mapFormAction: ActionFunction = async ({request}) => {
     for(const [key, value] of formData.entries()){
         if(value){
             searchParams.set(key, value as string);
+        } else if(searchParams.has(key)) {
+            searchParams.delete(key);
         }
     }
     

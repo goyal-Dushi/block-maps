@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 src/try.ts
+.vite/
+.vite/deps/
+vite/

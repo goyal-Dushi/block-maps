@@ -1,9 +1,14 @@
 .structure {
     width: 100px;
     height: 100px;
-    background: coral;
     height: 50px;
     width: 50px !important;
+
+    &:not(.active){
+        .structure-text{
+            color: transparent
+        }
+    }
 
     &.disabled {
         opacity: 0.4;
@@ -15,27 +20,10 @@
     }
 
     &-residential {
-        background: url('../../../../assets/home.png');
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-blend-mode: soft-light;
+        background: #e1e1e1;
+        border: 0.2px solid #d1d1d1;
 
-        &_left {
-            background: url('../../../../assets/left_end.png');
-            background-size: cover;
-        }
-
-        &_right {
-            background: url('../../../../assets/right_end.png');
-            background-size: cover;
-        }
-
-        &_mid {
-            background: url('../../../../assets/mid_house.png');
-            background-size: cover;
-        }
-
-        &_text {
+        .residential_text {
             color: black;
             font-size: 14px;
             font-weight: bold;
@@ -45,62 +33,81 @@
     &-gym {
         background: url('../../../../assets/gym.png');
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: 2rem;
         background-blend-mode: soft-light;
 
-        &_text {
+        .gym_text {
             color: #000;
             font-weight: bold;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            margin-left: 35px;
         }
     }
 
     &-medical {
         background: url('../../../../assets/hospital.png');
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: 2rem;
         background-blend-mode: soft-light;
 
-        &_text {
+        .medical_text {
             color: black;
             font-size: 12px;
             font-weight: bold;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            margin-left: 35px;
         }
     }
 
     &-pg {
         background: url('../../../../assets/hostel.png');
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: 2rem;
         background-blend-mode: soft-light;
 
-        &_text {
+        .pg_text {
             color: red;
             font-weight: bold;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            margin-left: 35px;
         }
     }
 
     &-rent {
         background: url('../../../../assets/rent.png');
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: 2rem;
         background-blend-mode: soft-light;
 
-        &_text {
+        .rent_text {
             color: rgb(9, 9, 72);
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            margin-left: 35px;
         }
     }
 
     &-park {
         background: url('../../../../assets/park.png');
         background-repeat: no-repeat;
-        background-size: contain;
+        background-size: 2rem;
         background-blend-mode: soft-light;
     }
 
     &-commercial {
         background: url('../../../../assets/cart.png');
         background-repeat: no-repeat;
-        background-size: contain;
+        background-size: 2rem;
+        background-blend-mode: soft-light;
+    }
+
+    &-plant{
+        background: url('../../../../assets/plant.png');
+        background-repeat: no-repeat;
+        background-size: 2rem;
         background-blend-mode: soft-light;
     }
 }

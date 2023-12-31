@@ -1,14 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import './Roads.scss';
-import LocatorSrc from '../../../../assets/locator_green.png';
-import LocatorDestn from '../../../../assets/locator_green.png';
+import LocatorSrc from '../../../../assets/locator_red.png';
+import LocatorDestn from '../../../../assets/locator_red.png';
 import { RoadArrangement } from "../blockMap/type";
 
 interface RoadsProps extends RoadArrangement {
     classes?: string;
     isSrc: boolean;
     isDestn: boolean;
-    getStructureRef: (ref: React.MutableRefObject<HTMLDivElement | null>) => void;
+    getStructureRef: (ref: React.MutableRefObject<HTMLDivElement | null>, type: "src" | "destn") => void;
 }
 
 export const ROAD_SET = new Set<string>(["service", "main"]);
@@ -21,10 +21,12 @@ const Roads: React.FC<RoadsProps> = (props) => {
 
     useEffect(() => {
         if (isSrc) {
-            getStructureRef(roadRef);
+            getStructureRef(roadRef, "src");
+        } else if(isDestn){
+            getStructureRef(roadRef, 'destn');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSrc]);
+    }, [isSrc, isDestn]);
 
     return (
         <div ref={roadRef} className={`road road__${type} ${classes}`} >

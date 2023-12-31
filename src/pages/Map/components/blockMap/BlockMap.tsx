@@ -1,35 +1,75 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Structure, { STRUCTURE_SET, StructureTypes } from "../structure/Structure";
 import Roads, { ROAD_SET, RoadType } from "../roads/Roads";
 import { createCordStrHash } from "../../../../utils/createBlockMatrix";
 import { Arrangement, Dimension, RoadArrangement, StructureArrangement } from "./type";
+import Actions from "../actions/Actions";
+import './BlockMap.scss';
 
 export interface BlockMapProps {
     arrangement: Arrangement;
     dimension: Dimension;
     path?: Set<string>;
-    type?: StructureTypes;
+    type?: StructureTypes | undefined;
     src?: string;
     destn?: string;
-    zoom: number;
+    // handleBusiness
 }
 
 const BlockMap: React.FC<BlockMapProps> = (props) => {
-    const { arrangement, dimension, path, type: paramType, src, destn, zoom } = props;
-    const [strtRef, setStrtRef] = useState<React.MutableRefObject<HTMLDivElement | null>
+    const { arrangement, dimension, path, src, destn } = props;
+    const [srcRef, setSrcRef] = useState<React.RefObject<HTMLDivElement>
     >();
+    const [destnRef, setDestnRef] = useState<React.RefObject<HTMLDivElement>
+    >();
+    const [zoom, setZoom] = useState(1.0);
 
-
-    const getRef = (ref: React.MutableRefObject<HTMLDivElement | null>) => {
+    const scrollToView = (ref: React.RefObject<HTMLDivElement>) => {
         ref.current?.scrollIntoView({
+            block: "center",
+            inline: "center",
             behavior: 'smooth',
         });
-        setStrtRef(ref);
+    }
+
+    const getRef = (ref: React.RefObject<HTMLDivElement>, type: "src" | "destn") => {
+        scrollToView(ref);
+        if(type === "src"){
+            setSrcRef(ref);
+        } else {
+            setDestnRef(ref);
+        }
     };
 
-    useLayoutEffect(() => {
-        if (strtRef) {
-            getRef(strtRef);
+    const handleZoomIn = () => {
+        if (+zoom.toFixed(1) === 1.5) {
+            return;
+        }
+        setZoom((prev) => {
+            return prev + 0.1;
+        });
+    };
+
+    const handleZoomOut = () => {
+        if (zoom === 1.0) {
+            return;
+        }
+        setZoom((prev) => {
+            return prev - 0.1;
+        });
+    };
+
+    const handleRecenter = () => {
+        if(srcRef){
+            scrollToView(srcRef);
+        } else if(destnRef){
+            scrollToView(destnRef);
+        }
+    }
+
+    useEffect(() => {
+        if(zoom !== 1.0){
+            handleRecenter();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [zoom]);
@@ -49,8 +89,12 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
 
                                     const { structureNo } = block as StructureArrangement;
                                     let classes = "";
-                                    if (paramType && type !== paramType && (structureNo !== src && structureNo !== destn)) {
-                                        classes += "disabled";
+                                    // if (paramType && type !== paramType && (structureNo !== src && structureNo !== destn)) {
+                                    //     classes += "disabled";
+                                    // }
+
+                                    if(structureNo === src || structureNo === destn){
+                                        classes += ' active';
                                     }
 
                                     return (
@@ -89,6 +133,7 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
                     )
                 })}
             </div>
+            <Actions handleReCenter={handleRecenter} handleZoomIn={handleZoomIn} handleZoomOut={handleZoomOut} />
         </>
     )
 }

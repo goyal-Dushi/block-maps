@@ -1,0 +1,12 @@
+.badge-container{
+    &::-webkit-scrollbar{
+        display: none;
+    }
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    .badge{
+        font-weight: normal !important;
+    }
+}   
