@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Arrangement, RoadArrangement } from "./pages/Map/components/blockMap/type";
 
 interface CoordinateProps {
@@ -10,6 +10,7 @@ const Coordinate: React.FC<CoordinateProps> = (props) => {
     const ls = window.localStorage;
     const geolocation = navigator.geolocation;
     const [blockmap, setBlockMap] = useState<any[][]>();
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     if(!mapConfig){
         return null;
@@ -85,8 +86,36 @@ const Coordinate: React.FC<CoordinateProps> = (props) => {
         }
     }
 
+    const handleCopy = async () => {
+        try{
+            const data = ls.getItem('map') as string;
+        
+            if(data && textareaRef){
+                (textareaRef.current as HTMLTextAreaElement).value = data;
+            }
+        
+            await navigator.clipboard.writeText(data);
+        } catch(err){
+            console.error(err);
+        }
+    }
+
+    const handleTextareaClear = () => {
+        if(textareaRef){
+            (textareaRef.current as HTMLTextAreaElement).value = '';
+        }
+    }
+
     if(blockmap){
         return(
+            <>
+            <div>
+            <textarea ref={textareaRef} rows={4} name="lsvalue" id="lsvalue" className="my-2 form-control" />
+            <div className="d-flex gap-2">
+            <button onClick={handleCopy} className="btn btn-sm btn-outline-primary">Copy</button>
+            <button onClick={handleTextareaClear} className="btn btn-sm btn-outline-secondary">Clear</button>
+            </div>
+            </div>
             <div className="d-flex flex-column align-items-center justify-content-between gap-2">
                 {(blockmap).map((mapArr, idx) => {
                     return mapArr.map((row, rowIdx) => {
@@ -117,6 +146,7 @@ const Coordinate: React.FC<CoordinateProps> = (props) => {
                     });
                 })}
             </div>
+            </>
         )
     }
 
