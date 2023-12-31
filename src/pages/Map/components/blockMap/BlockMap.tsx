@@ -13,21 +13,32 @@ export interface BlockMapProps {
     type?: StructureTypes | undefined;
     src?: string;
     destn?: string;
+    // handleBusiness
 }
 
 const BlockMap: React.FC<BlockMapProps> = (props) => {
     const { arrangement, dimension, path, src, destn } = props;
-    const [strtRef, setStrtRef] = useState<React.RefObject<HTMLDivElement>
+    const [srcRef, setSrcRef] = useState<React.RefObject<HTMLDivElement>
+    >();
+    const [destnRef, setDestnRef] = useState<React.RefObject<HTMLDivElement>
     >();
     const [zoom, setZoom] = useState(1.0);
 
-    const getRef = (ref: React.RefObject<HTMLDivElement>) => {
+    const scrollToView = (ref: React.RefObject<HTMLDivElement>) => {
         ref.current?.scrollIntoView({
             block: "center",
             inline: "center",
             behavior: 'smooth',
         });
-        setStrtRef(ref);
+    }
+
+    const getRef = (ref: React.RefObject<HTMLDivElement>, type: "src" | "destn") => {
+        scrollToView(ref);
+        if(type === "src"){
+            setSrcRef(ref);
+        } else {
+            setDestnRef(ref);
+        }
     };
 
     const handleZoomIn = () => {
@@ -49,8 +60,10 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
     };
 
     const handleRecenter = () => {
-        if(strtRef){
-            getRef(strtRef);
+        if(srcRef){
+            scrollToView(srcRef);
+        } else if(destnRef){
+            scrollToView(destnRef);
         }
     }
 
