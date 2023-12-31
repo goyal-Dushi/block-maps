@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import './Map.scss'
 import BlockMap from './components/blockMap/BlockMap'
 import { DblockConfig } from '../../maps/sector27/Dblock'
@@ -9,6 +9,7 @@ import SearchIcon from '../../assets/svg/Search';
 import FormCanvas from './components/mapForm/FormCanvas';
 import BackIcon from '../../assets/svg/BackIcon';
 import StructureBadgeRow from './components/structureBadges/StructureBadgeRow';
+import StructureCanvas from './components/structureCanvas/StructureCanvas';
 
 interface AppProps { }
 
@@ -16,13 +17,13 @@ const App: React.FC<AppProps> = () => {
   const params = useSearchParams();
   const navigate = useNavigate();
   const [pathSet, setPathHash] = useState<Set<string>>();
-  const [strctType, setStructType] = useState<StructureTypes | undefined>();
+  const [strctType, _] = useState<StructureTypes | undefined>();
   const [showCanvas, setShowCanvas] = useState(false);
-  const searchParams = useSearchParams();
+  const [showStructureCanvas, setShowStructureCanvas] = useState(false);
 
   const destnVal = useMemo(() => {
-    return searchParams[0].get('destn');
-}, [searchParams]);
+    return params[0].get('destn');
+}, [params]);
 
 const dBLockConfig = useMemo(() => {
   const rows = DblockConfig.length;
@@ -61,6 +62,12 @@ const dBLockConfig = useMemo(() => {
     });
   };
 
+   const handleStructureCanvas = useCallback(() => {
+    setShowStructureCanvas((prev) => {
+      return !prev;
+    });
+   }, []);
+
   const handleInputClick = () => {
     handleCanvas();
   }
@@ -70,17 +77,17 @@ const dBLockConfig = useMemo(() => {
       <div className='map-window'>
       {destnVal ? (
         <>
-          <button type='button' onClick={handleCanvas} className="btn btn-secondary rounded-circle position-fixed" style={{ top: '1rem', left: '1rem', zIndex: 150 }}>
+          <button type='button' onClick={handleCanvas} className="btn btn-secondary rounded-circle position-fixed back-btn">
             <BackIcon />
           </button>
         </>
       ) : (
         <>
         <div className="input-group mb-3 position-fixed" style={{ top: '1.8rem', left: "10%", width: "80%", zIndex: "150" }}>
-                <span className="input-group-text" id="basic-addon1">
+                <label htmlFor='destn' className="input-group-text" id="basic-addon1">
                     <SearchIcon />
-                </span>
-                <input value={destnVal || ''} readOnly onClick={handleInputClick} type="number" className="form-control" placeholder="Find House Number" aria-label="find" aria-describedby="basic-addon1" />
+                </label>
+                <input value={destnVal || ''} readOnly onClick={handleInputClick} id='destn' type="number" className="form-control" placeholder="Find House Number" aria-label="find" aria-describedby="basic-addon1" />
             </div>
           </>
       )}
@@ -89,6 +96,9 @@ const dBLockConfig = useMemo(() => {
       </div>
       {showCanvas && (
         <FormCanvas handleCanvas={handleCanvas} />
+      )}
+      {showStructureCanvas && (
+        <StructureCanvas handleStructureCanvas={handleStructureCanvas} />
       )}
       
     </div>
