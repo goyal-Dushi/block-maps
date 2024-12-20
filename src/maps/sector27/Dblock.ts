@@ -95,7 +95,7 @@ export const DblockConfig: Arrangement = [
         { type: "service", roadHash: new Set([176, 108]) },
         { type: "service" },
         { type: "service", roadHash: new Set([177, 107]) },
-        { type: "service" },
+        { type: "service", roadHash: new Set([177, 107]) },
     ],
     [
         { type: "main", roadHash: new Set([160]), rotn: true },
@@ -117,8 +117,8 @@ export const DblockConfig: Arrangement = [
         { type: "residential", structureNo: "110" },
         { type: "residential", structureNo: "109" },
         { type: "residential", structureNo: "108" },
+        { type: "residential", structureNo: "107" },
         { type: "residential", structureNo: "107", business: 'plant' },
-        { type: "residential" },
         { type: "service" },
     ],
     [
