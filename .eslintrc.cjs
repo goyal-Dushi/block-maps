@@ -1,24 +1,27 @@
 module.exports = {
-  env: { browser: true, es2020: true },
+  env: { browser: true, es2021: true },
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
-    'prettier',
-    'plugin:prettier/recommended'
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
   ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  plugins: ['@typesript-eslint','react','react-refresh', 'prettier'],
+  parser: "@typescript-eslint/parser",
+  parserOptions: { ecmaVersion: "latest", sourceType: "module" },
+  plugins: ["@typesript-eslint", "react", "react-hooks", "prettier"],
   rules: {
-    "eqeqeq": "error",
+    eqeqeq: "error",
     "no-console": "warn",
     "no-undef": "off",
     "no-unused-vars": "off",
     "prettier/prettier": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-unused-vars": "warn"
+    "@typescript-eslint/no-unused-vars": "warn",
   },
-}
+};

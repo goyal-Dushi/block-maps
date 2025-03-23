@@ -19,14 +19,15 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "src",
     "paths": {
-      "@assets": ["assets"],
-      "@utils": ["utils"],
-    },
+      "@assets": ["assets/*"],
+      "@utils": ["utils/*"],
+      "@hooks": ["hooks/*"]
+    }
   },
   "include": ["src"],
   "references": [
     {
-      "path": "./tsconfig.node.json",
-    },
-  ],
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
