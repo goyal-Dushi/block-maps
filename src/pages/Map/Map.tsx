@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Map.scss";
 import BlockMap from "./components/blockMap/BlockMap";
 import { DblockConfig } from "../../maps/sector27/Dblock";
@@ -8,12 +8,15 @@ import { StructureTypes } from "./components/structure/Structure";
 import FormCanvas from "./components/mapForm/FormCanvas";
 import StructureBadgeRow from "./components/structureBadges/StructureBadgeRow";
 import StructureCanvas from "./components/structureCanvas/StructureCanvas";
-import { BackSvg, SearchSvg } from "../../assets";
+import BackSvg from "assets/svg/BackIcon";
+import SearchSvg from "assets/svg/SearchIcon";
+import useGetSearchParams from "hooks/useGetSearchParams";
 
 interface AppProps {}
 
 const App: React.FC<AppProps> = () => {
-  const params = useSearchParams();
+  const { getParamsAsObject } = useGetSearchParams();
+  const paramsObj = getParamsAsObject();
   const navigate = useNavigate();
   const [pathSet, setPathHash] = useState<Set<string>>();
   const [strctType, _] = useState<StructureTypes | undefined>();
@@ -21,53 +24,46 @@ const App: React.FC<AppProps> = () => {
   const [showStructureCanvas, setShowStructureCanvas] = useState(false);
 
   const destnVal = useMemo(() => {
-    return params[0].get("destn");
-  }, [params]);
+    return paramsObj.destn;
+  }, [paramsObj]);
 
-  const dBLockConfig = useMemo(() => {
-    const rows = DblockConfig.length;
-    const cols = DblockConfig[0].length;
-    return { rows, cols };
-  }, []);
-
-  const payload = useMemo(() => {
-    const obj: Record<string, string> = {};
-    for (const [key, value] of params[0]) {
-      obj[key] = value;
-    }
-    return obj;
-  }, [params[0]]);
+  const dBLockConfig = {
+    rows: DblockConfig.length,
+    cols: DblockConfig[0].length,
+  };
 
   useEffect(() => {
-    if (!payload.block || !payload.sector) {
+    if (!paramsObj.block || !paramsObj.sector) {
       navigate("/");
       return;
     }
 
-    if (payload.src && payload.destn) {
-      const set = solve(payload.src, payload.destn);
+    if (paramsObj.src && paramsObj.destn) {
+      const set = solve(paramsObj.src, paramsObj.destn);
       setPathHash(set);
     } else {
       setPathHash(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [payload.src, payload.destn]);
+  }, [paramsObj.src, paramsObj.destn]);
 
-  const handleCanvas = () => {
+  const handleCanvas = useCallback(() => {
     setShowCanvas((prev) => {
       return !prev;
     });
-  };
+  }, []);
+
+  useEffect(() => {
+    if (paramsObj.canvas && !showCanvas) {
+      handleCanvas();
+    }
+  }, [paramsObj, paramsObj.canvas, handleCanvas, showCanvas]);
 
   const handleStructureCanvas = useCallback(() => {
     setShowStructureCanvas((prev) => {
       return !prev;
     });
   }, []);
-
-  const handleInputClick = () => {
-    handleCanvas();
-  };
 
   return (
     <div className="page-wrapper">
@@ -93,23 +89,18 @@ const App: React.FC<AppProps> = () => {
                 zIndex: "150",
               }}
             >
-              <label
-                htmlFor="destn"
-                className="input-group-text"
-                id="basic-addon1"
-              >
+              <label htmlFor="destn" className="input-group-text">
                 <SearchSvg />
               </label>
               <input
                 value={destnVal || ""}
                 readOnly
-                onClick={handleInputClick}
+                onClick={handleCanvas}
                 id="destn"
                 type="number"
                 className="form-control"
                 placeholder="Find House Number"
                 aria-label="find"
-                aria-describedby="basic-addon1"
               />
             </div>
           </>
@@ -118,8 +109,8 @@ const App: React.FC<AppProps> = () => {
         <BlockMap
           arrangement={DblockConfig}
           type={strctType}
-          src={payload.src}
-          destn={payload.destn}
+          src={paramsObj.src}
+          destn={paramsObj.destn}
           path={pathSet}
           dimension={{ ...dBLockConfig }}
         />
