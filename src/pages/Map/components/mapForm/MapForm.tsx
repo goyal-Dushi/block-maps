@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Form } from "react-router-dom";
+import React from "react";
 import SearchIcon from "assets/svg/SearchIcon";
 import HouseIcon from "assets/svg/HouseIcon";
 import useGetSearchParams from "hooks/useGetSearchParams";
@@ -10,19 +9,8 @@ interface MapFormProps {
 
 const MapForm: React.FC<MapFormProps> = (props) => {
   const { handleFormCanvas } = props;
-  const [src, setSrc] = useState("");
-  const [destn, setDestn] = useState("");
   const { getAsUrlSearchParams } = useGetSearchParams();
   const searchParams = getAsUrlSearchParams();
-
-  // useEffect(() => {
-  //   if (srcVal) {
-  //     setSrc(srcVal);
-  //   }
-  //   if (destnVal) {
-  //     setDestn(destnVal);
-  //   }
-  // }, []);
 
   const handleCloseCanvas = () => {
     if (searchParams.has("canvas")) {
@@ -56,16 +44,6 @@ const MapForm: React.FC<MapFormProps> = (props) => {
     handleFormCanvas();
   };
 
-  const handleSrcChange = (e: React.SyntheticEvent) => {
-    const targetSrcVal = (e.target as HTMLInputElement).value;
-    setSrc(targetSrcVal);
-  };
-
-  const handleDestnChange = (e: React.SyntheticEvent) => {
-    const targetDestnVal = (e.target as HTMLInputElement).value;
-    setDestn(targetDestnVal);
-  };
-
   return (
     <div className="container-lg p-4 pt-0">
       <form onSubmit={handleFormSubmit} method="POST">
@@ -79,7 +57,6 @@ const MapForm: React.FC<MapFormProps> = (props) => {
             </span>
             <input
               autoFocus
-              onChange={handleDestnChange}
               defaultValue={searchParams.get("destn") || ""}
               type="number"
               id="destn"
@@ -92,7 +69,7 @@ const MapForm: React.FC<MapFormProps> = (props) => {
           </div>
           <div className="form-text">
             {" "}
-            {destn
+            {searchParams.has("destn")
               ? "The House I am trying to find!"
               : "Please type in the house number where you want to go!"}{" "}
           </div>
@@ -104,7 +81,6 @@ const MapForm: React.FC<MapFormProps> = (props) => {
               <HouseIcon />
             </span>
             <input
-              onChange={handleSrcChange}
               type="number"
               min={1}
               defaultValue={searchParams.get("src") || ""}
@@ -118,7 +94,7 @@ const MapForm: React.FC<MapFormProps> = (props) => {
           </div>
           <div className="form-text">
             {" "}
-            {destn
+            {searchParams.has("destn")
               ? "Type in the nearest house number which you can see around you. Make sure the house number typed belongs to same block :)"
               : "Look around and type in nearest House number you see!"}{" "}
           </div>

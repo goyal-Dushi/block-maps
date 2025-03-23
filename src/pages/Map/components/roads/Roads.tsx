@@ -25,7 +25,6 @@ const Roads: React.FC<RoadsProps> = (props) => {
     classes,
     isSrc,
     isDestn,
-    rotn,
     match: userLocMatch,
     scrollToView,
   } = props;
