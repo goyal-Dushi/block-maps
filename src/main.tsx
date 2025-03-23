@@ -9,7 +9,6 @@ import {
 import "./index.scss";
 import ErrorPageURL from "./error/Error.tsx";
 import { mapFormAction } from "./pages/Map/utils.ts";
-import { DblockConfig } from "./maps/sector27/Dblock.ts";
 
 const router = createBrowserRouter([
   {
