@@ -14,12 +14,14 @@ const useGetUserCords = () => {
 
   const getUserCords = () => {
     if (nav === "start" && navigator.geolocation) {
+      const cords = { lat: 0, long: 0 };
+
       navigator.geolocation.getCurrentPosition((position) => {
-        return {
-          lat: position.coords.latitude,
-          long: position.coords.longitude,
-        };
-      });
+        cords.lat = position.coords.latitude;
+        cords.long = position.coords.longitude;
+      }, null);
+
+      return cords;
     }
 
     return undefined;
