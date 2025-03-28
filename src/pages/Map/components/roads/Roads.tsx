@@ -69,7 +69,7 @@ const Roads: React.FC<RoadsProps> = (props) => {
       )}
       {userLocMatch ? (
         <>
-          <PersonWalk />
+          <PersonWalk style={{ zIndex: 100 }} />
         </>
       ) : null}
       {showStopNavBtn ? <NavButton stopNav /> : null}
