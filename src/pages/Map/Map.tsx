@@ -6,7 +6,6 @@ import { DblockConfig } from "../../maps/sector27/Dblock";
 import { solve } from "../../utils";
 import { StructureTypes } from "./components/structure/Structure";
 import FormCanvas from "./components/mapForm/FormCanvas";
-import StructureBadgeRow from "./components/structureBadges/StructureBadgeRow";
 import StructureCanvas from "./components/structureCanvas/StructureCanvas";
 import BackSvg from "assets/svg/BackIcon";
 import SearchSvg from "assets/svg/SearchIcon";
@@ -105,7 +104,7 @@ const App: React.FC<AppProps> = () => {
             </div>
           </>
         )}
-        <StructureBadgeRow />
+        {/* <StructureBadgeRow /> */}
         <BlockMap
           arrangement={DblockConfig}
           type={strctType}
