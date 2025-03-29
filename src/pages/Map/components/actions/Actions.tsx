@@ -8,10 +8,11 @@ interface ActionsProps {
   handleZoomIn: () => void;
   handleZoomOut: () => void;
   handleReCenter: () => void;
+  getUserCords: () => void;
 }
 
 const Actions: React.FC<ActionsProps> = (props) => {
-  const { handleZoomIn, handleZoomOut, handleReCenter } = props;
+  const { handleZoomIn, handleZoomOut, handleReCenter, getUserCords } = props;
 
   return (
     <div className="window-actions position-fixed">
@@ -35,6 +36,9 @@ const Actions: React.FC<ActionsProps> = (props) => {
         className="btn btn-primary fw-bold"
       >
         <Recenter />
+      </button>
+      <button className="btn btn-primary" type="button" onClick={getUserCords}>
+        Get Cord
       </button>
     </div>
   );

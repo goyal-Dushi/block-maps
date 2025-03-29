@@ -41,6 +41,7 @@ const RoadView: React.FC<RoadViewProps> = (props) => {
     <Roads
       scrollToView={scrollToView}
       isSrc={isSrc}
+      isPath={isActivePath}
       isDestn={isDestn}
       key={`${data.type}-${colIdx}`}
       classes={isActivePath && !roadData.match ? "road--included" : ""}

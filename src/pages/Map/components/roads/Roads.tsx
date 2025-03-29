@@ -11,6 +11,7 @@ interface RoadsProps extends RoadArrangement {
   classes?: string;
   isSrc: boolean;
   isDestn: boolean;
+  isPath: boolean;
   match: boolean;
   scrollToView?: (ref: React.RefObject<HTMLDivElement>) => void;
 }
@@ -25,6 +26,7 @@ const Roads: React.FC<RoadsProps> = (props) => {
     classes,
     isSrc,
     isDestn,
+    isPath,
     match: userLocMatch,
     scrollToView,
   } = props;
@@ -67,7 +69,7 @@ const Roads: React.FC<RoadsProps> = (props) => {
           {showStartNavBtn ? <NavButton /> : null}
         </div>
       )}
-      {userLocMatch ? (
+      {userLocMatch && isPath ? (
         <>
           <PersonWalk style={{ zIndex: 100 }} />
         </>
