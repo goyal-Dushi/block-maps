@@ -46,6 +46,11 @@ export const findIfCoordinatesMatching = (
   latThreshold = 0.005,
   lonThreshold = 0.005
 ): RoadArrangement & { match: boolean } => {
+  const seachParams = new URLSearchParams(window.location.search);
+  const p = seachParams.get("p");
+  const newLatThreshold = p ? parseFloat(p) : latThreshold;
+  const newLonThreshold = p ? parseFloat(p) : lonThreshold;
+
   if (data.cords && typeof data.cords === "object" && userCords) {
     const { lat: userLat, long: userLon } = userCords;
 
@@ -56,8 +61,8 @@ export const findIfCoordinatesMatching = (
 
       // Check if the difference is within the threshold
       if (
-        Math.abs(userLat - storedLat) <= latThreshold &&
-        Math.abs(userLon - storedLon) <= lonThreshold
+        Math.abs(userLat - storedLat) <= newLatThreshold &&
+        Math.abs(userLon - storedLon) <= newLonThreshold
       ) {
         return {
           match: true,
