@@ -1,33 +1,54 @@
-class Queue{
-    private queue: string[] = [];
-    private size = 0;
+interface MNode<T> {
+  data: T | null;
+  next: MNode<T> | null;
+}
 
-    constructor(){
-        this.queue = [];
-        this.size = 0;
+class Queue<T> {
+  private queueHead: MNode<T> | null;
+  private queueTail: MNode<T> | null;
+  private size: number;
+
+  constructor() {
+    this.queueHead = null;
+    this.queueTail = null;
+    this.size = 0;
+  }
+
+  enqueue(val: T) {
+    const newNode = { data: val, next: null };
+
+    if (!this.queueHead) {
+      this.queueHead = newNode;
+      this.queueTail = newNode;
+      this.size += 1;
+      return;
     }
-    getQueue(){
-        return this.queue;
+
+    (this.queueTail as MNode<T>).next = newNode;
+    this.size += 1;
+    this.queueTail = (this.queueTail as MNode<T>).next;
+  }
+
+  dequeue(): T | null {
+    if (this.size === 0 && !this.queueHead) {
+      return null;
     }
-    enqueue(val: string){
-        this.queue.push(val);
-        this.size += 1;
-    }
-    dequeue(): string{
-        const ele = this.queue.shift() as string;
-        this.size -= 1;
-        return ele;
-    }
-    tailVal(): string{
-        return this.queue[this.size-1];
-    }
-    isEmpty(){
-        return this.size === 0;
-    }
-    clear(){
-        this.queue = [];
-        this.size = 0;
-    }
+
+    const ele = (this.queueHead as MNode<T>).data;
+    this.queueHead = (this.queueHead as MNode<T>).next;
+    this.size -= 1;
+    return ele;
+  }
+
+  isEmpty() {
+    return this.size === 0;
+  }
+
+  clear() {
+    this.queueHead = { data: null, next: null };
+    this.queueTail = { data: null, next: null };
+    this.size = 0;
+  }
 }
 
 export default Queue;

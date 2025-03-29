@@ -5,6 +5,7 @@ import {
 } from "../pages/Map/components/blockMap/type";
 import { STRUCTURE_SET } from "../pages/Map/components/structure/Structure";
 import { DblockConfig } from "../maps/sector27/Dblock";
+import Queue from "utils/Queue";
 
 type MatrixType = { isPath: boolean; houseNo?: Set<number> }[][];
 type BlockDict = Record<number, [[number, number]]>;
@@ -116,14 +117,15 @@ function bfs(
   const dx = [-1, 0, 0, 1];
   const dy = [0, -1, 1, 0];
 
-  const queue = [[source[0], source[1]]];
+  const queue = new Queue<[number, number]>();
+  queue.enqueue([source[0], source[1]]);
   const visited = new Set();
   visited.add(`${source[0]}-${source[1]}`);
 
   const parent: Record<string, [number, number]> = {};
 
-  while (queue.length > 0) {
-    const [x, y] = queue.shift() as [number, number];
+  while (!queue.isEmpty()) {
+    const [x, y] = queue.dequeue() as [number, number];
 
     if (destinations.some(([dx, dy]) => dx === x && dy === y)) {
       const path = [];
@@ -152,7 +154,7 @@ function bfs(
         matrix[newX][newY].isPath &&
         !visited.has(key)
       ) {
-        queue.push([newX, newY]);
+        queue.enqueue([newX, newY]);
         visited.add(key);
 
         parent[key] = [x, y];
