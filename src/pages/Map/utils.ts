@@ -43,8 +43,8 @@ export const getIsActivePath = (
 export const findIfCoordinatesMatching = (
   data: RoadArrangement,
   userCords?: UserCordsI,
-  latThreshold = 0.005,
-  lonThreshold = 0.005
+  latThreshold = 0.0002,
+  lonThreshold = 0.0002
 ): RoadArrangement & { match: boolean } => {
   const seachParams = new URLSearchParams(window.location.search);
   const p = seachParams.get("p");
@@ -58,6 +58,9 @@ export const findIfCoordinatesMatching = (
       const lon = data.cords[lat];
       const storedLat = parseFloat(lat);
       const storedLon = parseFloat(lon);
+
+      console.log("storedLat", storedLat);
+      console.log("storedLon", storedLon);
 
       // Check if the difference is within the threshold
       if (
