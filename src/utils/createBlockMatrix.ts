@@ -5,7 +5,7 @@ import {
 } from "../pages/Map/components/blockMap/type";
 import { STRUCTURE_SET } from "../pages/Map/components/structure/Structure";
 import { DblockConfig } from "../maps/sector27/Dblock";
-import Queue from "utils/Queue";
+import Queue from "./queue";
 
 type MatrixType = { isPath: boolean; houseNo?: Set<number> }[][];
 type BlockDict = Record<number, [[number, number]]>;
