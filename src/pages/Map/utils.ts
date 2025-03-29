@@ -43,8 +43,8 @@ export const getIsActivePath = (
 export const findIfCoordinatesMatching = (
   data: RoadArrangement,
   userCords?: UserCordsI,
-  latThreshold = 0.0001,
-  lonThreshold = 0.0001
+  latThreshold = 0.005,
+  lonThreshold = 0.005
 ): RoadArrangement & { match: boolean } => {
   if (data.cords && typeof data.cords === "object" && userCords) {
     const { lat: userLat, long: userLon } = userCords;
