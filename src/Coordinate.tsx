@@ -1,208 +1,171 @@
-// import React, { useEffect, useRef, useState } from "react";
-// import {
-//   Arrangement,
-//   RoadArrangement,
-// } from "./pages/Map/components/blockMap/type";
+import React, { useEffect, useRef, useState } from "react";
+import { Arrangement } from "./pages/Map/components/blockMap/type";
 
-// interface CoordinateProps {
-//   mapConfig: Arrangement;
-// }
+interface CoordinateProps {
+  mapConfig?: Arrangement;
+}
 
-// const Coordinate: React.FC<CoordinateProps> = (props) => {
-//   const { mapConfig } = props;
-//   const ls = window.localStorage;
-//   const geolocation = navigator.geolocation;
-//   const [blockmap, setBlockMap] = useState<any[][]>();
-//   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+interface BlockMapI {
+  [key: string]: Array<{ lat: number; long: number }>;
+}
 
-//   if (!mapConfig) {
-//     return null;
-//   }
+const getUpdateConfig = () => {
+  const updateState: BlockMapI = {};
+  for (let i = 1; i < 200; i++) {
+    updateState[i] = [];
+  }
 
-//   const getUpdateConfig = () => {
-//     const updateConfig = mapConfig.map((mapRow) => {
-//       return mapRow.map((obj) => {
-//         if (obj.type !== "main" && obj.type !== "service") {
-//           return { ...obj };
-//         }
+  return updateState;
+};
 
-//         if (!obj.roadHash?.size) {
-//           return { ...obj };
-//         }
+const Coordinate: React.FC<CoordinateProps> = () => {
+  const ls = window.localStorage;
+  const geolocation = navigator.geolocation;
+  const [blockmap, setBlockMap] = useState<BlockMapI>();
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-//         const hashVal = Array.from(obj.roadHash);
-//         delete obj.roadHash;
-//         (obj.roadHash as any) = hashVal;
+  useEffect(() => {
+    const map = ls.getItem("map") as string;
+    if (map) {
+      setBlockMap(JSON.parse(map));
+    } else {
+      setBlockMap(getUpdateConfig());
+    }
+  }, []);
 
-//         return obj;
-//       });
-//     });
+  const handleGetCords = (house: number) => {
+    const updateMap: BlockMapI = { ...blockmap };
 
-//     return updateConfig;
-//   };
+    geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
 
-//   useEffect(() => {
-//     if (mapConfig) {
-//       setBlockMap(getUpdateConfig());
-//     }
-//   }, [mapConfig]);
+        updateMap[house].push({ lat: latitude, long: longitude });
 
-//   useEffect(() => {
-//     const map = ls.getItem("map") as string;
-//     if (map) {
-//       setBlockMap(JSON.parse(map) || getUpdateConfig());
-//     }
-//   }, []);
+        ls.setItem("map", JSON.stringify(updateMap));
+        setBlockMap(updateMap);
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+  };
 
-//   const handleGetCords = (row: number, col: number) => {
-//     const updateMap = Array.from(blockmap as Arrangement);
+  const handleClearCords = (house: number) => {
+    // clear cords
+    const map = JSON.parse(ls.getItem("map") as string) as BlockMapI;
 
-//     if (
-//       (updateMap[row][col] as RoadArrangement).latitude &&
-//       (updateMap[row][col] as RoadArrangement).longitude
-//     ) {
-//       console.log("return handle cord");
-//       return;
-//     }
+    if (map?.[house]) {
+      map[house] = [];
 
-//     geolocation.getCurrentPosition(
-//       (pos) => {
-//         const { latitude, longitude } = pos.coords;
+      setBlockMap(map || getUpdateConfig());
+      ls.setItem("map", JSON.stringify(map));
+    }
+  };
 
-//         (updateMap[row][col] as RoadArrangement).latitude = latitude;
-//         (updateMap[row][col] as RoadArrangement).longitude = longitude;
+  const handleCopy = async () => {
+    try {
+      const data = ls.getItem("map") as string;
 
-//         ls.setItem("map", JSON.stringify(updateMap));
-//         setBlockMap(updateMap);
-//       },
-//       (err) => {
-//         console.error(err);
-//       }
-//     );
-//   };
+      if (data && textareaRef) {
+        (textareaRef.current as HTMLTextAreaElement).value = data;
+      }
 
-//   const handleClearCords = (row: number, col: number) => {
-//     // clear cords
-//     const map = JSON.parse(ls.getItem("map") as string);
+      await navigator.clipboard.writeText(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-//     if (
-//       (map[row][col] as RoadArrangement).latitude &&
-//       (map[row][col] as RoadArrangement).longitude
-//     ) {
-//       (map[row][col] as RoadArrangement)["latitude"] = undefined;
-//       (map[row][col] as RoadArrangement)["longitude"] = undefined;
+  const handleTextareaClear = () => {
+    if (textareaRef) {
+      (textareaRef.current as HTMLTextAreaElement).value = "";
+    }
+    ls.removeItem("map");
+    setBlockMap(getUpdateConfig());
+  };
 
-//       setBlockMap(map || getUpdateConfig());
-//       ls.setItem("map", JSON.stringify(map));
-//     }
-//   };
+  if (blockmap) {
+    return (
+      <>
+        <div>
+          <textarea
+            ref={textareaRef}
+            rows={4}
+            name="lsvalue"
+            id="lsvalue"
+            className="my-2 form-control"
+          />
+          <div className="d-flex gap-2">
+            <button
+              onClick={handleCopy}
+              className="btn btn-sm btn-outline-primary"
+            >
+              Copy
+            </button>
+            <button
+              onClick={handleTextareaClear}
+              className="btn btn-sm btn-outline-secondary"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+        <div className="d-flex flex-column align-items-center justify-content-between gap-2">
+          {Object.entries(blockmap).map((entry) => {
+            const house = entry[0];
+            const cords = entry[1];
 
-//   const handleCopy = async () => {
-//     try {
-//       const data = ls.getItem("map") as string;
+            return (
+              <div className="d-flex flex-column" key={`${house}`}>
+                <div>
+                  <span className="me-2">{house}</span>
+                </div>
+                <div className="d-flex flex-column gap-2">
+                  {cords.map((cord) => {
+                    const { lat: latitude, long: longitude } = cord;
 
-//       if (data && textareaRef) {
-//         (textareaRef.current as HTMLTextAreaElement).value = data;
-//       }
+                    if (!latitude || !longitude) {
+                      return null;
+                    }
 
-//       await navigator.clipboard.writeText(data);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
+                    return (
+                      <div className="d-flex gap-2">
+                        <span> Latitude: {latitude} </span>
+                        <span> Longitude: {longitude} </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="d-flex gap-2">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      return handleGetCords(+house);
+                    }}
+                  >
+                    {" "}
+                    Get Cord{" "}
+                  </button>
+                  <button
+                    className="btn btn-outline-secondary"
+                    onClick={() => {
+                      return handleClearCords(+house);
+                    }}
+                  >
+                    {" "}
+                    Clear{" "}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </>
+    );
+  }
 
-//   const handleTextareaClear = () => {
-//     if (textareaRef) {
-//       (textareaRef.current as HTMLTextAreaElement).value = "";
-//     }
-//   };
+  return null;
+};
 
-//   if (blockmap) {
-//     return (
-//       <>
-//         <div>
-//           <textarea
-//             ref={textareaRef}
-//             rows={4}
-//             name="lsvalue"
-//             id="lsvalue"
-//             className="my-2 form-control"
-//           />
-//           <div className="d-flex gap-2">
-//             <button
-//               onClick={handleCopy}
-//               className="btn btn-sm btn-outline-primary"
-//             >
-//               Copy
-//             </button>
-//             <button
-//               onClick={handleTextareaClear}
-//               className="btn btn-sm btn-outline-secondary"
-//             >
-//               Clear
-//             </button>
-//           </div>
-//         </div>
-//         <div className="d-flex flex-column align-items-center justify-content-between gap-2">
-//           {blockmap.map((mapArr, idx) => {
-//             return mapArr.map((row, rowIdx) => {
-//               const { type, roadHash, latitude, longitude } =
-//                 row as RoadArrangement;
-
-//               if (type !== "main" && type !== "service") {
-//                 return null;
-//               }
-
-//               if (!roadHash) {
-//                 return null;
-//               }
-
-//               return (
-//                 <div key={`${idx}-${rowIdx}`}>
-//                   <div>
-//                     {" "}
-//                     {(roadHash as any).map((road: number) => {
-//                       return (
-//                         <span key={road} className="me-2">
-//                           {road}
-//                         </span>
-//                       );
-//                     })}{" "}
-//                   </div>
-//                   <div className="d-flex gap-2">
-//                     <span> Latitude: {latitude} </span>
-//                     <span> Longitude: {longitude} </span>
-//                   </div>
-//                   <div className="d-flex gap-2">
-//                     <button
-//                       className="btn btn-primary"
-//                       onClick={() => {
-//                         return handleGetCords(idx, rowIdx);
-//                       }}
-//                     >
-//                       {" "}
-//                       Get Cord{" "}
-//                     </button>
-//                     <button
-//                       className="btn btn-outline-secondary"
-//                       onClick={() => {
-//                         return handleClearCords(idx, rowIdx);
-//                       }}
-//                     >
-//                       {" "}
-//                       Clear{" "}
-//                     </button>
-//                   </div>
-//                 </div>
-//               );
-//             });
-//           })}
-//         </div>
-//       </>
-//     );
-//   }
-
-//   return null;
-// };
-
-// export default Coordinate;
+export default Coordinate;

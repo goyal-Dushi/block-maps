@@ -9,6 +9,7 @@ import {
 import "./index.scss";
 import ErrorPageURL from "./error/Error.tsx";
 import { mapFormAction } from "./pages/Map/utils.ts";
+import Coordinate from "Coordinate.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,11 +18,11 @@ const router = createBrowserRouter([
     action: mapFormAction,
     errorElement: <ErrorPageURL />,
   },
-  // {
-  //   path: '/getCords',
-  //   element: <Coordinate mapConfig={DblockConfig} />,
-  //   errorElement: <ErrorPageURL />,
-  // },
+  {
+    path: "/getCords",
+    element: <Coordinate />,
+    errorElement: <ErrorPageURL />,
+  },
   {
     path: "*",
     element: (
