@@ -4,11 +4,11 @@
     height: 50px;
     width: 50px !important;
 
-    &:not(.active){
-        .structure-text{
-            color: transparent
-        }
-    }
+    // &:not(.active){
+    //     .structure-text{
+    //         color: transparent
+    //     }
+    // }
 
     &.disabled {
         opacity: 0.4;
@@ -91,10 +91,7 @@
     }
 
     &-park {
-        background: url('../../../../assets/park.png');
-        background-repeat: no-repeat;
-        background-size: 2rem;
-        background-blend-mode: soft-light;
+        background: lightgreen;
     }
 
     &-commercial {
