@@ -9,37 +9,36 @@ export interface UserCordsI {
 const useGetUserCords = () => {
   const [userCords, setUserCords] = useState<UserCordsI | undefined>();
   const { fetchParams } = useGetSearchParams();
-  const intervalRef = useRef<number | null>(null);
+  const watchPositionRef = useRef<number>();
   const [nav] = fetchParams(["nav", "destn"]);
 
   const getUserCords = () => {
+    let cords: UserCordsI | undefined;
     if (nav === "start" && navigator.geolocation) {
-      const cords = { lat: 0, long: 0 };
+      cords = { lat: 0, long: 0 };
 
-      navigator.geolocation.getCurrentPosition((position) => {
-        cords.lat = position.coords.latitude;
-        cords.long = position.coords.longitude;
-      }, null);
-
-      return cords;
+      watchPositionRef.current = navigator.geolocation.watchPosition((position) => {
+        (cords as UserCordsI).lat = position.coords.latitude;
+        (cords as UserCordsI).long = position.coords.longitude;
+      }, null, {
+        enableHighAccuracy: false,
+        maximumAge: 2000,
+      })
     }
 
-    return undefined;
+    setUserCords(cords);
   };
 
   const stopPolling = () => {
-    intervalRef.current && clearInterval(intervalRef.current);
-  };
-
-  const pollUserCords = () => {
-    intervalRef.current = setInterval(() => {
-      setUserCords(getUserCords());
-    }, 1000);
+    if (watchPositionRef.current) {
+      navigator.geolocation.clearWatch(watchPositionRef.current);
+      watchPositionRef.current = undefined;
+    }
   };
 
   useEffect(() => {
     if (nav === "start") {
-      pollUserCords();
+      getUserCords();
     }
 
     if (nav === "stop") {

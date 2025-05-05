@@ -15,6 +15,21 @@ export type RoadArrangement = {
   rotn?: boolean; // stripe rotn
   roadHash?: Set<number>; // houses connected to road
   cords?: Record<string, string>; // road coordinates
+  houseCords?: Record<string, BoxCordI>;
 };
+
+export interface CordI {
+  lat: number;
+  long: number;
+}
+
+export interface BoxCordI {
+  set1?: CordI;
+  set2?: CordI;
+}
+
+/*
+  houseCOrd = { 107: [{ lat: 38.32932, long: 30.90239 }] }
+*/
 
 export type Arrangement = (StructureArrangement | RoadArrangement)[][];

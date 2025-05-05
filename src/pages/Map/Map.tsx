@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Map.scss";
 import BlockMap from "./components/blockMap/BlockMap";
-import { DblockConfig } from "../../maps/sector27/Dblock";
+import  DblockConfig from "../../maps/sector27/DblockUpd";
 import { solve } from "../../utils";
 import { StructureTypes } from "./components/structure/Structure";
 import FormCanvas from "./components/mapForm/FormCanvas";
@@ -11,7 +11,7 @@ import BackSvg from "assets/svg/BackIcon";
 import SearchSvg from "assets/svg/SearchIcon";
 import useGetSearchParams from "hooks/useGetSearchParams";
 
-interface AppProps {}
+interface AppProps { }
 
 const App: React.FC<AppProps> = () => {
   const { getParamsAsObject } = useGetSearchParams();
@@ -104,7 +104,6 @@ const App: React.FC<AppProps> = () => {
             </div>
           </>
         )}
-        {/* <StructureBadgeRow /> */}
         <BlockMap
           arrangement={DblockConfig}
           type={strctType}

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { STRUCTURE_SET, StructureTypes } from "../structure/Structure";
 import { ROAD_SET } from "../roads/Roads";
 import {
@@ -9,11 +9,11 @@ import {
 } from "./type";
 import Actions from "../actions/Actions";
 import "./BlockMap.scss";
-import useMapActions from "hooks/useMapActions";
+
 import StructureView from "./StructureView";
 import RoadView from "./RoadView";
-import { UserCordsI } from "hooks/useGetUserCords";
-// import useGetUserCords from "hooks/useGetUserCords";
+import useMapActions from "hooks/useMapActions";
+import useGetUserCords from "hooks/useGetUserCords";
 
 export interface BlockMapProps {
   arrangement: Arrangement;
@@ -28,24 +28,7 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
   const { arrangement, dimension, path, src, destn } = props;
   const { handleRecenter, handleZoomIn, handleZoomOut, scrollToView, zoom } =
     useMapActions();
-  const [userCords, setUserCords] = React.useState<UserCordsI>({
-    lat: 0,
-    long: 0,
-  });
-  // const { userCords } = useGetUserCords();
-
-  const getUserCords = useCallback(async () => {
-    const cords = { lat: 0, long: 0 };
-
-    navigator?.geolocation?.getCurrentPosition((position) => {
-      cords.lat = position.coords.latitude;
-      cords.long = position.coords.longitude;
-
-      setUserCords(cords);
-    }, null);
-  }, []);
-
-  console.log("userCords", userCords);
+  const { userCords } = useGetUserCords();
 
   return (
     <>
@@ -99,7 +82,6 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
         })}
       </div>
       <Actions
-        getUserCords={getUserCords}
         handleReCenter={handleRecenter}
         handleZoomIn={handleZoomIn}
         handleZoomOut={handleZoomOut}

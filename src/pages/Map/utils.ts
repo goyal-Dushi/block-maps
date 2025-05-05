@@ -1,6 +1,9 @@
 import { UserCordsI } from "hooks/useGetUserCords";
 import { ActionFunction, redirect } from "react-router-dom";
-import { RoadArrangement } from "./components/blockMap/type";
+import { CordI, RoadArrangement } from "./components/blockMap/type";
+import { DblockConfig } from "maps/sector27/Dblock";
+import boxCords from "maps/boxCords.json";
+import { ROAD_SET } from "./components/roads/Roads";
 
 export const mapFormAction: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -43,37 +46,45 @@ export const getIsActivePath = (
 export const findIfCoordinatesMatching = (
   data: RoadArrangement,
   userCords?: UserCordsI,
-  latThreshold = 0.0002,
-  lonThreshold = 0.0002
 ): RoadArrangement & { match: boolean } => {
-  const seachParams = new URLSearchParams(window.location.search);
-  const p = seachParams.get("p");
-  const newLatThreshold = p ? parseFloat(p) : latThreshold;
-  const newLonThreshold = p ? parseFloat(p) : lonThreshold;
+  if (userCords && data.houseCords && Object.keys(data.houseCords).length) {
+    const { lat: uLat, long: uLong } = userCords;
 
-  if (data.cords && typeof data.cords === "object" && userCords) {
-    const { lat: userLat, long: userLon } = userCords;
+    data.roadHash?.forEach((houseNo) => {
+      const houesCord = data.houseCords?.[houseNo];
+      if (houesCord) {
+        let Gx = 0, Gy = 0, Sx = 0, Sy = 0;
+        const { set1, set2 } = houesCord;
 
-    for (let lat in data.cords) {
-      const lon = data.cords[lat];
-      const storedLat = parseFloat(lat);
-      const storedLon = parseFloat(lon);
+        if (set1 && set2) {
+          if (set1.lat < set2.lat) {
+            Gx = set2.lat;
+            Sx = set1.lat;
+          } else {
+            Gx = set1.lat;
+            Sx = set2.lat;
+          }
 
-      console.log("storedLat", storedLat);
-      console.log("storedLon", storedLon);
+          if (set1.long < set2.long) {
+            Gy = set2.lat;
+            Sy = set1.lat;
+          } else {
+            Gy = set1.lat;
+            Sy = set2.lat;
+          }
 
-      // Check if the difference is within the threshold
-      if (
-        Math.abs(userLat - storedLat) <= newLatThreshold &&
-        Math.abs(userLon - storedLon) <= newLonThreshold
-      ) {
-        return {
-          match: true,
-          ...data,
-        };
+          // check if user cords lies within cord
+          if ((uLat <= Gx && uLat >= Sx) && (uLong <= Gy && uLong >= Sy)) {
+            return { match: true, ...data };
+          }
+
+          return { match: false, ...data };
+        }
       }
-    }
+    })
   }
+
+
 
   return { match: false, ...data };
 };
@@ -94,3 +105,38 @@ export const getIfSrcOrDestn = (
 
   return returnObj;
 };
+
+export const toRemove = () => {
+  const blockConfig = DblockConfig;
+  const newCords: Record<string, CordI[]> = boxCords;
+
+  const updatedConfig = blockConfig.map((rowData) => {
+
+    return rowData.map((data) => {
+
+      if (ROAD_SET.has(data.type)) {
+
+        if ((data as RoadArrangement).roadHash?.size) {
+          let houseCords: Record<string, any> = {};
+
+          (data as RoadArrangement).roadHash?.forEach((houseNo) => {
+            houseCords = { ...houseCords, [houseNo]: {} };
+
+            newCords[houseNo]?.forEach((set, idx) => {
+              houseCords[houseNo][`set${idx + 1}`] = { lat: set.lat, long: set.long };
+            });
+          });
+
+          return {
+            ...data,
+            houseCords,
+          }
+        }
+      }
+
+      return data;
+    })
+  });
+
+  return updatedConfig;
+}
