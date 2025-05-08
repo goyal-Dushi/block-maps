@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Map.scss";
 import BlockMap from "./components/blockMap/BlockMap";
 import { DblockConfig } from "../../maps/sector27/Dblock";
 import { solve } from "../../utils";

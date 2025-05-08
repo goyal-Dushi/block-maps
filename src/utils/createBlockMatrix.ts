@@ -30,6 +30,25 @@ const adjacencyMatrix = (arrangement: Arrangement, dimensions: Dimension) => {
         matrix[i].push({ isPath: false, houseNo: new Set([-1]) });
         continue;
       }
+      // if gate, check timings for open or closed
+      if (
+        (arrObj as RoadArrangement).isGate &&
+        !(arrObj as RoadArrangement).gateProps?.open
+      ) {
+        const gateTimings = (arrObj as RoadArrangement).gateProps?.timings;
+
+        if (gateTimings) {
+          const currentHour = new Date().getHours();
+          const { start: sTime, end: eTime } = gateTimings;
+          if (currentHour >= sTime && currentHour <= eTime) {
+            matrix[i].push({ isPath: true });
+          } else {
+            matrix[i].push({ isPath: false, houseNo: new Set([-1]) });
+          }
+          continue;
+        }
+      }
+
       // if road / service lane
       else {
         matrix[i].push({ isPath: true });

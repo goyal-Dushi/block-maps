@@ -9,12 +9,15 @@ export const getMapInfoAction: ActionFunction = async ({ request }) => {
         if(!value){
             continue;
         }
+
         if(flag){
             url += `${key}=${value}`;
             flag = 0;
             continue;
         }
+
         url += `&${key}=${value}`;
     }
+    
     return redirect(url);
 }

@@ -4,7 +4,7 @@ import { RoadArrangement } from "./type";
 import {
   getIsActivePath,
   getIfSrcOrDestn,
-  findIfCoordinatesMatching,
+  checkIfGateOpen,
 } from "pages/Map/utils";
 import { UserCordsI } from "hooks/useGetUserCords";
 
@@ -21,31 +21,22 @@ export interface RoadViewProps {
 }
 
 const RoadView: React.FC<RoadViewProps> = (props) => {
-  const {
-    data,
-    src,
-    destn,
-    cordY,
-    rowIdx,
-    path,
-    colIdx,
-    userCords,
-    scrollToView,
-  } = props;
+  const { data, src, destn, cordY, rowIdx, path, colIdx, scrollToView } = props;
 
   const isActivePath = getIsActivePath(rowIdx, cordY, path);
   const { isDestn, isSrc } = getIfSrcOrDestn(data, src, destn);
-  const roadData = findIfCoordinatesMatching(data, userCords);
+  const isGateOpen = checkIfGateOpen(data);
 
   return (
     <Roads
+      {...data}
       scrollToView={scrollToView}
       isSrc={isSrc}
       isPath={isActivePath}
       isDestn={isDestn}
+      isGateOpen={isGateOpen}
       key={`${data.type}-${colIdx}`}
-      classes={isActivePath && !roadData.match ? "road--included" : ""}
-      {...roadData}
+      classes={`${isActivePath ? "road--included" : ""} ${data.classes || ""}`}
     />
   );
 };

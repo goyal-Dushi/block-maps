@@ -2,17 +2,16 @@ import React from "react";
 import ZoomIn from "assets/svg/ZoomIn";
 import ZoomOut from "assets/svg/ZoomOut";
 import Recenter from "assets/svg/Recenter";
-import "./actions.scss";
 
 interface ActionsProps {
   handleZoomIn: () => void;
   handleZoomOut: () => void;
   handleReCenter: () => void;
-  getUserCords: () => void;
+  getUserCords?: () => void;
 }
 
 const Actions: React.FC<ActionsProps> = (props) => {
-  const { handleZoomIn, handleZoomOut, handleReCenter, getUserCords } = props;
+  const { handleZoomIn, handleZoomOut, handleReCenter } = props;
 
   return (
     <div className="window-actions position-fixed">
@@ -36,9 +35,6 @@ const Actions: React.FC<ActionsProps> = (props) => {
         className="btn btn-primary fw-bold"
       >
         <Recenter />
-      </button>
-      <button className="btn btn-primary" type="button" onClick={getUserCords}>
-        Get Cord
       </button>
     </div>
   );

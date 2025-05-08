@@ -1,18 +1,16 @@
-import React, { useRef, useEffect, useMemo } from "react";
-import "./Roads.scss";
+import React, { useRef, useEffect } from "react";
 import LocatorSrc from "assets/locator_red.png";
 import LocatorDestn from "assets/locator_red.png";
 import { RoadArrangement } from "../blockMap/type";
 import useGetSearchParams from "hooks/useGetSearchParams";
-import NavButton from "./NavButton";
-import PersonWalk from "assets/svg/Person";
+import IntersectinIcon from "assets/svg/IntersectionIcon";
 
 interface RoadsProps extends RoadArrangement {
   classes?: string;
   isSrc: boolean;
   isDestn: boolean;
   isPath: boolean;
-  match: boolean;
+  isGateOpen?: boolean;
   scrollToView?: (ref: React.RefObject<HTMLDivElement>) => void;
 }
 
@@ -26,24 +24,12 @@ const Roads: React.FC<RoadsProps> = (props) => {
     classes,
     isSrc,
     isDestn,
-    isPath,
-    match: userLocMatch,
     scrollToView,
+    isGateOpen = true,
+    triJunction,
   } = props;
   const { fetchParams } = useGetSearchParams();
-  const [srcVal, destnVal, navParam] = fetchParams(["src", "destn", "nav"]);
-
-  const showStartNavBtn = useMemo(() => {
-    if (isSrc && srcVal && destnVal && (!navParam || navParam === "stop")) {
-      return true;
-    }
-
-    return false;
-  }, [srcVal, destnVal, isSrc, navParam]);
-
-  const showStopNavBtn = useMemo(() => {
-    return isSrc && navParam === "start";
-  }, [showStartNavBtn, isSrc]);
+  const [srcVal] = fetchParams(["src"]);
 
   useEffect(() => {
     if (srcVal && isSrc) {
@@ -54,8 +40,13 @@ const Roads: React.FC<RoadsProps> = (props) => {
     }
   }, [isDestn, srcVal, isSrc, scrollToView]);
 
+  const triJunctionDir = triJunction?.dir || "";
+
   return (
-    <div ref={roadRef} className={`road road__${type} ${classes}`}>
+    <div
+      ref={roadRef}
+      className={`road road__${type} ${classes} ${!isGateOpen ? "road--closed" : ""} ${triJunctionDir ? `road__tri-intersection` : ""}`}
+    >
       {(isSrc || isDestn) && (
         <div>
           <div className="locator">
@@ -66,16 +57,11 @@ const Roads: React.FC<RoadsProps> = (props) => {
               height={60}
             />
           </div>
-          {showStartNavBtn ? <NavButton /> : null}
         </div>
       )}
-      {userLocMatch && isPath ? (
-        <>
-          <PersonWalk style={{ zIndex: 100 }} />
-        </>
+      {triJunctionDir ? (
+        <IntersectinIcon className={`junction junction--${triJunctionDir}`} />
       ) : null}
-      {showStopNavBtn ? <NavButton stopNav /> : null}
-      {/* <span className={`stripe ${rotn ? "stripe--vertical" : ""}`}></span> */}
     </div>
   );
 };

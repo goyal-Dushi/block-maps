@@ -4,12 +4,6 @@
     height: 50px;
     width: 50px !important;
 
-    // &:not(.active){
-    //     .structure-text{
-    //         color: transparent
-    //     }
-    // }
-
     &.disabled {
         opacity: 0.4;
     }
@@ -20,8 +14,9 @@
     }
 
     &-residential {
+        @extend .border;
+        @extend .border-secondary;
         background: #e1e1e1;
-        border: 0.2px solid #d1d1d1;
 
         .residential_text {
             color: black;
@@ -30,81 +25,19 @@
         }
     }
 
-    &-gym {
-        background: url('../../../../assets/gym.png');
-        background-repeat: no-repeat;
-        background-size: 2rem;
-        background-blend-mode: soft-light;
-
-        .gym_text {
-            color: #000;
-            font-weight: bold;
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            margin-left: 35px;
-        }
-    }
-
-    &-medical {
-        background: url('../../../../assets/hospital.png');
-        background-repeat: no-repeat;
-        background-size: 2rem;
-        background-blend-mode: soft-light;
-
-        .medical_text {
-            color: black;
-            font-size: 12px;
-            font-weight: bold;
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            margin-left: 35px;
-        }
-    }
-
-    &-pg {
-        background: url('../../../../assets/hostel.png');
-        background-repeat: no-repeat;
-        background-size: 2rem;
-        background-blend-mode: soft-light;
-
-        .pg_text {
-            color: red;
-            font-weight: bold;
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            margin-left: 35px;
-        }
-    }
-
-    &-rent {
-        background: url('../../../../assets/rent.png');
-        background-repeat: no-repeat;
-        background-size: 2rem;
-        background-blend-mode: soft-light;
-
-        .rent_text {
-            color: rgb(9, 9, 72);
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            margin-left: 35px;
-        }
-    }
-
     &-park {
         background: lightgreen;
+        letter-spacing: 14px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: darkgreen;
     }
 
     &-commercial {
-        background: url('../../../../assets/cart.png');
+        background-color: rgb(237, 237, 153);
         background-repeat: no-repeat;
-        background-size: 2rem;
-        background-blend-mode: soft-light;
-    }
-
-    &-plant{
-        background: url('../../../../assets/plant.png');
-        background-repeat: no-repeat;
-        background-size: 2rem;
+        letter-spacing: 0.9em;
+        font-weight: bold;
         background-blend-mode: soft-light;
     }
 }

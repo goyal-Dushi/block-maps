@@ -1,5 +1,4 @@
 .road {
-
     background-color: rgb(240, 237, 237);
     display: flex;
     align-items: center;
@@ -7,11 +6,37 @@
     height: 50px;
     width: 50px !important;
 
+    &__tri-intersection{
+        background-color: black !important;
+    }
+
     &--included {
         background-color: #0d6efd;
+    }
+
+    &--closed {
+        @extend .border-danger;
     }
 }
 
 .locator{
     z-index: 100;
+}
+
+.junction {
+    color: yellow;
+    height: 24px;
+    width: 24px;
+
+    &--up{
+        transform: rotate(-90deg);
+    }
+
+    &--down{
+        transform: rotate(90deg);
+    }
+
+    &--left{
+        transform: rotate(180deg);
+    }
 }
