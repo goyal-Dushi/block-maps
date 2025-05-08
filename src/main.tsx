@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./index.scss";
 import Map from "./pages/Map/Map.tsx";
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import "./index.scss";
 import ErrorPageURL from "./error/Error.tsx";
 import { mapFormAction } from "./pages/Map/utils.ts";
 

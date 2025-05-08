@@ -10,20 +10,16 @@ interface StructureViewProps {
 
 const StructureView: React.FC<StructureViewProps> = (props) => {
   const { data, src, destn, idx } = props;
-  const { structureNo, type } = data;
-  let classes = "";
-
-  if (structureNo === src || structureNo === destn) {
-    classes += " active";
-  }
+  const { text, type, classes } = data;
+  const active = text === src || text === destn;
 
   return (
     <Structure
-      classes={classes}
-      key={`${type}-${structureNo}-${idx}`}
+      classes={`${active ? "active" : ""} ${classes}`}
+      key={`${type}-${text}-${idx}`}
       {...(data as StructureArrangement)}
       type={type}
-      structureNo={structureNo}
+      text={text}
     />
   );
 };

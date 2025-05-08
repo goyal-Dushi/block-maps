@@ -59,8 +59,8 @@ export const findIfCoordinatesMatching = (
       const storedLat = parseFloat(lat);
       const storedLon = parseFloat(lon);
 
-      console.log("storedLat", storedLat);
-      console.log("storedLon", storedLon);
+      // console.log("storedLat", storedLat);
+      // console.log("storedLon", storedLon);
 
       // Check if the difference is within the threshold
       if (
@@ -93,4 +93,25 @@ export const getIfSrcOrDestn = (
   }
 
   return returnObj;
+};
+
+export const checkIfGateOpen = (data: RoadArrangement): boolean => {
+  const gateProps = data.gateProps;
+  if (gateProps?.open && !gateProps?.timings) {
+    return true;
+  }
+
+  const gateTimings = gateProps?.timings;
+  if (!gateTimings) {
+    return true;
+  }
+
+  const { start, end } = gateTimings;
+  const currentHour = new Date().getHours();
+
+  if (currentHour >= start && currentHour <= end) {
+    return true;
+  }
+
+  return false;
 };
