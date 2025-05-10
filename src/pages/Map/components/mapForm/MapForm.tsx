@@ -51,7 +51,10 @@ const MapForm: React.FC<MapFormProps> = (props) => {
           className="d-flex flex-column mb-3"
           style={{ marginTop: "0.8rem" }}
         >
-          <div className="input-group flex-nowrap">
+          <div
+            data-tag-id="destn-input-field"
+            className="input-group flex-nowrap"
+          >
             <span className="input-group-text" id="destn">
               <SearchIcon />
             </span>
@@ -62,7 +65,6 @@ const MapForm: React.FC<MapFormProps> = (props) => {
               id="destn"
               min={1}
               name="destn"
-              data-tag-id="destn-input-field"
               placeholder="Find House Number"
               className="form-control w-100"
               aria-label="Destination"
@@ -77,7 +79,10 @@ const MapForm: React.FC<MapFormProps> = (props) => {
         </div>
 
         <div className="d-flex flex-column mb-3">
-          <div className="input-group flex-nowrap">
+          <div
+            data-tag-id="src-input-field"
+            className="input-group flex-nowrap"
+          >
             <span className="input-group-text" id="destn">
               <HouseIcon />
             </span>
@@ -87,7 +92,6 @@ const MapForm: React.FC<MapFormProps> = (props) => {
               defaultValue={searchParams.get("src") || ""}
               id="src"
               name="src"
-              data-tag-id="src-input-field"
               placeholder="House Number near me"
               className="form-control w-100"
               aria-label="Source"
