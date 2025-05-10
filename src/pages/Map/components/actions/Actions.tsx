@@ -18,12 +18,14 @@ const Actions: React.FC<ActionsProps> = (props) => {
       <button
         title="Zoom IN"
         onClick={handleZoomIn}
+        data-tag-id="zoom-in-btn"
         className="btn btn-primary fw-bold me-2"
       >
         <ZoomIn />
       </button>
       <button
         title="Zoom OUT"
+        data-tag-id="zoom-out-btn"
         onClick={handleZoomOut}
         className="btn btn-primary fw-bold me-2"
       >
@@ -31,6 +33,7 @@ const Actions: React.FC<ActionsProps> = (props) => {
       </button>
       <button
         title="Re-center"
+        data-tag-id="recenter-btn"
         onClick={handleReCenter}
         className="btn btn-primary fw-bold"
       >

@@ -70,6 +70,7 @@ const App: React.FC<AppProps> = () => {
           <>
             <button
               type="button"
+              data-tag-id="back-btn"
               onClick={handleCanvas}
               className="btn btn-secondary rounded-circle position-fixed back-btn"
             >
@@ -93,6 +94,7 @@ const App: React.FC<AppProps> = () => {
               <input
                 value={destnVal || ""}
                 readOnly
+                data-tag-id="search-bar"
                 onClick={handleCanvas}
                 id="destn"
                 type="number"
@@ -103,7 +105,6 @@ const App: React.FC<AppProps> = () => {
             </div>
           </>
         )}
-        {/* <StructureBadgeRow /> */}
         <BlockMap
           arrangement={DblockConfig}
           type={strctType}

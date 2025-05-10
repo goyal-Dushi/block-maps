@@ -62,6 +62,7 @@ const MapForm: React.FC<MapFormProps> = (props) => {
               id="destn"
               min={1}
               name="destn"
+              data-tag-id="destn-input-field"
               placeholder="Find House Number"
               className="form-control w-100"
               aria-label="Destination"
@@ -70,7 +71,7 @@ const MapForm: React.FC<MapFormProps> = (props) => {
           <div className="form-text">
             {" "}
             {searchParams.has("destn")
-              ? "The House I am trying to find!"
+              ? "The House number I am trying to find!"
               : "Please type in the house number where you want to go!"}{" "}
           </div>
         </div>
@@ -86,6 +87,7 @@ const MapForm: React.FC<MapFormProps> = (props) => {
               defaultValue={searchParams.get("src") || ""}
               id="src"
               name="src"
+              data-tag-id="src-input-field"
               placeholder="House Number near me"
               className="form-control w-100"
               aria-label="Source"
@@ -146,7 +148,11 @@ const MapForm: React.FC<MapFormProps> = (props) => {
         </div>
 
         <div className="d-flex gap-2">
-          <button type="submit" className="btn btn-primary">
+          <button
+            data-tag-id="submit-btn"
+            type="submit"
+            className="btn btn-primary"
+          >
             {" "}
             Submit{" "}
           </button>
@@ -156,6 +162,7 @@ const MapForm: React.FC<MapFormProps> = (props) => {
             onClick={handleCloseCanvas}
             data-bs-dismiss="offcanvas"
             aria-label="Close"
+            data-tag-id="close-btn"
           >
             {" "}
             Close{" "}
