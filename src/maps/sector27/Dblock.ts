@@ -161,7 +161,6 @@ export const DblockConfig: Arrangement = [
       classes: "border-top border-4",
       isGate: true,
       gateProps: {
-        text: "Gate 2",
         timings: {
           start: 6,
           end: 22,
@@ -176,7 +175,7 @@ export const DblockConfig: Arrangement = [
       roadHash: new Set([161, 160]),
       isGate: true,
       gateProps: {
-        text: "Gate 1",
+        text: "Gate 3",
         timings: {
           start: 6,
           end: 23,
@@ -194,7 +193,6 @@ export const DblockConfig: Arrangement = [
       isGate: true,
       gateProps: {
         open: true,
-        text: "Gate 1",
         timings: {
           start: 6,
           end: 23,
@@ -1282,7 +1280,7 @@ export const DblockConfig: Arrangement = [
       classes: "border-end border-4",
       isGate: true,
       gateProps: {
-        text: "GATE 4",
+        text: "Gate 4",
         timings: {
           start: 23,
           end: 6,
@@ -1296,7 +1294,6 @@ export const DblockConfig: Arrangement = [
       isGate: true,
       gateProps: {
         open: true,
-        text: "GATE 4",
         timings: {
           start: 23,
           end: 6,
@@ -1426,7 +1423,6 @@ export const DblockConfig: Arrangement = [
       classes: "border-bottom border-4",
       isGate: true,
       gateProps: {
-        text: "Gate 3",
         timings: {
           start: 6,
           end: 22,
@@ -1465,7 +1461,7 @@ export const DblockConfig: Arrangement = [
       classes: "border-top border-4",
       isGate: true,
       gateProps: {
-        text: "Gate 3",
+        text: "Gate 1",
         timings: {
           start: 6,
           end: 22,

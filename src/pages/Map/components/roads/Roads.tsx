@@ -27,6 +27,7 @@ const Roads: React.FC<RoadsProps> = (props) => {
     scrollToView,
     isGateOpen = true,
     triJunction,
+    gateProps,
   } = props;
   const { fetchParams } = useGetSearchParams();
   const [srcVal] = fetchParams(["src"]);
@@ -41,6 +42,7 @@ const Roads: React.FC<RoadsProps> = (props) => {
   }, [isDestn, srcVal, isSrc, scrollToView]);
 
   const triJunctionDir = triJunction?.dir || "";
+  const { text } = gateProps || {};
 
   return (
     <div
@@ -62,6 +64,11 @@ const Roads: React.FC<RoadsProps> = (props) => {
       {triJunctionDir ? (
         <IntersectinIcon className={`junction junction--${triJunctionDir}`} />
       ) : null}
+      {text && (
+        <div className="gate__text">
+          <span>{text}</span>
+        </div>
+      )}
     </div>
   );
 };
