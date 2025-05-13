@@ -101,7 +101,7 @@ const MapForm: React.FC<MapFormProps> = (props) => {
           <div className="form-text">
             {" "}
             {searchParams.has("destn")
-              ? "Type in the nearest house number which you can see around you. Make sure the house number typed belongs to same block :)"
+              ? "Type the nearest house number you can see around you"
               : "Look around and type in nearest House number you see!"}{" "}
           </div>
         </div>
