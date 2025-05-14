@@ -9,6 +9,7 @@ import StructureCanvas from "./components/structureCanvas/StructureCanvas";
 import BackSvg from "assets/svg/BackIcon";
 import SearchSvg from "assets/svg/SearchIcon";
 import useGetSearchParams from "hooks/useGetSearchParams";
+import { Language } from "translations";
 
 interface AppProps {}
 
@@ -17,6 +18,7 @@ const App: React.FC<AppProps> = () => {
   const paramsObj = getParamsAsObject();
   const navigate = useNavigate();
   const [pathSet, setPathHash] = useState<Set<string>>();
+  const [lang, setLang] = useState<Language>("eng");
   const [strctType, _] = useState<StructureTypes | undefined>();
   const [showCanvas, setShowCanvas] = useState(false);
   const [showStructureCanvas, setShowStructureCanvas] = useState(false);
@@ -51,11 +53,9 @@ const App: React.FC<AppProps> = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (paramsObj.canvas && !showCanvas) {
-      handleCanvas();
-    }
-  }, [paramsObj, paramsObj.canvas, handleCanvas, showCanvas]);
+  const handleLangUpdate = useCallback((newLang: Language) => {
+    setLang(newLang);
+  }, []);
 
   const handleStructureCanvas = useCallback(() => {
     setShowStructureCanvas((prev) => {
@@ -114,7 +114,13 @@ const App: React.FC<AppProps> = () => {
           dimension={{ ...dBLockConfig }}
         />
       </div>
-      {showCanvas && <FormCanvas handleCanvas={handleCanvas} />}
+      {showCanvas && (
+        <FormCanvas
+          lang={lang}
+          onLangChange={handleLangUpdate}
+          handleCanvas={handleCanvas}
+        />
+      )}
       {showStructureCanvas && (
         <StructureCanvas handleStructureCanvas={handleStructureCanvas} />
       )}
