@@ -1,0 +1,54 @@
+{
+  "lang": {
+    "eng": "English",
+    "hin": "हिन्दी"
+  },
+  "eng": {
+    "form": {
+      "destn": {
+        "placeholder": "Find House Number",
+        "helpertext": {
+          "hasDestn": "The House number I am looking for",
+          "default": "Please type in the house number you want to reach!"
+        }
+      },
+      "src": {
+        "placeholder": "House Number near me",
+        "helpertext": {
+          "hasDestn": "Type the nearest house number you can see around you",
+          "default": "Look around and type in nearest House number you see!"
+        }
+      },
+      "submit": {
+        "label": "Find"
+      },
+      "close": {
+        "label": "Close"
+      }
+    }
+  },
+  "hin": {
+    "form": {
+      "destn": {
+        "placeholder": "मकान नंबर खोजें",
+        "helpertext": {
+          "hasDestn": "वह मकान नंबर जिसे मैं ढूंढ रहा हूँ",
+          "default": "कृपया वह मकान नंबर दर्ज करें जहाँ आप पहुँचना चाहते हैं!"
+        }
+      },
+      "src": {
+        "placeholder": "मेरे पास का मकान नंबर",
+        "helpertext": {
+          "hasDestn": "अपने आस-पास दिखने वाला सबसे नज़दीकी मकान नंबर दर्ज करें",
+          "default": "आस-पास देखें और जो सबसे नज़दीकी मकान नंबर आपको दिखे उसे दर्ज करें!"
+        }
+      },
+      "submit": {
+        "label": "खोजें"
+      },
+      "close": {
+        "label": "बंद करें"
+      }
+    }
+  }
+}
