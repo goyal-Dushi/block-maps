@@ -1,12 +1,15 @@
 import React from "react";
 import MapForm from "./MapForm";
+import { Language } from "translations";
 
 interface FormCanvasProps {
+  lang: Language;
+  onLangChange: (lang: Language) => void;
   handleCanvas: () => void;
 }
 
 const FormCanvas: React.FC<FormCanvasProps> = (props) => {
-  const { handleCanvas } = props;
+  const { handleCanvas, onLangChange, lang } = props;
 
   return (
     <div
@@ -16,7 +19,11 @@ const FormCanvas: React.FC<FormCanvasProps> = (props) => {
       aria-labelledby="offcanvasLabel"
     >
       <div className="offcanvas-body">
-        <MapForm handleFormCanvas={handleCanvas} />
+        <MapForm
+          lang={lang}
+          onLangChange={onLangChange}
+          handleFormCanvas={handleCanvas}
+        />
       </div>
     </div>
   );
