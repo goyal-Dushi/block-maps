@@ -3,19 +3,21 @@ import SearchIcon from "assets/svg/SearchIcon";
 import HouseIcon from "assets/svg/HouseIcon";
 import useGetSearchParams from "hooks/useGetSearchParams";
 import { Language, translations } from "translations";
+import { useNavigate } from "react-router-dom";
 
 interface MapFormProps {
   lang: Language;
-  onLangChange: (lang: Language) => void;
   handleFormCanvas: () => void;
 }
 
 const TEXT = translations;
 
 const MapForm: React.FC<MapFormProps> = (props) => {
-  const { handleFormCanvas, onLangChange, lang } = props;
+  const { handleFormCanvas } = props;
   const { getAsUrlSearchParams } = useGetSearchParams();
   const searchParams = getAsUrlSearchParams();
+  const navigate = useNavigate();
+  const lang = (searchParams.get("lang") as Language) || "eng";
   const text = TEXT?.[lang];
 
   const handleCloseCanvas = () => {
@@ -52,10 +54,18 @@ const MapForm: React.FC<MapFormProps> = (props) => {
 
   const handleLangChange = (event: React.MouseEvent<HTMLButtonElement>) => {
     const newLang = event.currentTarget.id as Language;
+    const searchParams = getAsUrlSearchParams();
+    searchParams.set("lang", newLang);
 
-    if (newLang) {
-      onLangChange(newLang);
-    }
+    navigate(
+      {
+        pathname: window.location.pathname,
+        search: searchParams.toString(),
+      },
+      {
+        replace: true,
+      }
+    );
   };
 
   return (
