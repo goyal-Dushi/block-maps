@@ -10,6 +10,26 @@ import Queue from "./queue";
 type MatrixType = { isPath: boolean; houseNo?: Set<number> }[][];
 type BlockDict = Record<number, [[number, number]]>;
 
+const updateMatrixAndBlockDict = (
+  matrix: MatrixType,
+  blockIndDict: BlockDict,
+  i: number,
+  j: number,
+  arrObj: RoadArrangement
+) => {
+  const roadHash = (arrObj as RoadArrangement)?.roadHash;
+  if (roadHash?.size) {
+    matrix[i][j] = { ...matrix[i][j], houseNo: roadHash };
+    roadHash.forEach((hash) => {
+      if (!blockIndDict[hash]) {
+        blockIndDict[hash] = [[i, j]];
+      } else {
+        blockIndDict[hash].push([i, j]);
+      }
+    });
+  }
+};
+
 const adjacencyMatrix = (arrangement: Arrangement, dimensions: Dimension) => {
   const matrix: MatrixType = [];
   const blockIndDict: BlockDict = {};
@@ -40,29 +60,35 @@ const adjacencyMatrix = (arrangement: Arrangement, dimensions: Dimension) => {
         if (gateTimings) {
           const currentHour = new Date().getHours();
           const { start: sTime, end: eTime } = gateTimings;
+
           if (currentHour >= sTime && currentHour <= eTime) {
             matrix[i].push({ isPath: true });
           } else {
             matrix[i].push({ isPath: false, houseNo: new Set([-1]) });
           }
-          continue;
         }
+
+        updateMatrixAndBlockDict(
+          matrix,
+          blockIndDict,
+          i,
+          j,
+          arrObj as RoadArrangement
+        );
+        continue;
       }
 
       // if road / service lane
       else {
         matrix[i].push({ isPath: true });
-        const roadHash = (arrObj as RoadArrangement)?.roadHash;
-        if (roadHash?.size) {
-          matrix[i][j] = { ...matrix[i][j], houseNo: roadHash };
-          roadHash.forEach((hash) => {
-            if (!blockIndDict[hash]) {
-              blockIndDict[hash] = [[i, j]];
-            } else {
-              blockIndDict[hash].push([i, j]);
-            }
-          });
-        }
+
+        updateMatrixAndBlockDict(
+          matrix,
+          blockIndDict,
+          i,
+          j,
+          arrObj as RoadArrangement
+        );
       }
     }
   }
