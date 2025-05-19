@@ -9,7 +9,7 @@ import StructureCanvas from "./components/structureCanvas/StructureCanvas";
 import BackSvg from "assets/svg/BackIcon";
 import SearchSvg from "assets/svg/SearchIcon";
 import useGetSearchParams from "hooks/useGetSearchParams";
-import { Language } from "translations";
+import { Language, translations } from "translations";
 
 interface AppProps {}
 
@@ -18,10 +18,14 @@ const App: React.FC<AppProps> = () => {
   const paramsObj = getParamsAsObject();
   const navigate = useNavigate();
   const [pathSet, setPathHash] = useState<Set<string>>();
-  const [lang, setLang] = useState<Language>("eng");
   const [strctType, _] = useState<StructureTypes | undefined>();
   const [showCanvas, setShowCanvas] = useState(false);
   const [showStructureCanvas, setShowStructureCanvas] = useState(false);
+  const lang = (paramsObj.lang as Language) || "eng";
+
+  const text = useMemo(() => {
+    return translations?.[lang];
+  }, [lang]);
 
   const destnVal = useMemo(() => {
     return paramsObj.destn;
@@ -51,10 +55,6 @@ const App: React.FC<AppProps> = () => {
     setShowCanvas((prev) => {
       return !prev;
     });
-  }, []);
-
-  const handleLangUpdate = useCallback((newLang: Language) => {
-    setLang(newLang);
   }, []);
 
   const handleStructureCanvas = useCallback(() => {
@@ -99,7 +99,7 @@ const App: React.FC<AppProps> = () => {
                 id="destn"
                 type="number"
                 className="form-control"
-                placeholder="Find House Number"
+                placeholder={text.form.destn.placeholder}
                 aria-label="find"
               />
             </div>
@@ -114,13 +114,7 @@ const App: React.FC<AppProps> = () => {
           dimension={{ ...dBLockConfig }}
         />
       </div>
-      {showCanvas && (
-        <FormCanvas
-          lang={lang}
-          onLangChange={handleLangUpdate}
-          handleCanvas={handleCanvas}
-        />
-      )}
+      {showCanvas && <FormCanvas lang={lang} handleCanvas={handleCanvas} />}
       {showStructureCanvas && (
         <StructureCanvas handleStructureCanvas={handleStructureCanvas} />
       )}

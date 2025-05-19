@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       <Navigate
         to={{
           pathname: "/map",
-          search: "?block=D&sector=27",
+          search: "?block=D&sector=27&lang=eng",
         }}
         replace
       />
