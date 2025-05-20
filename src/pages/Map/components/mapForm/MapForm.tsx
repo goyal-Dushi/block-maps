@@ -70,27 +70,37 @@ const MapForm: React.FC<MapFormProps> = (props) => {
 
   return (
     <div className="container-lg p-4 pt-0">
-      <div className="d-flex align-items-center justify-content-center gap-3">
-        <button
-          type="button"
-          className={`btn ${lang === "eng" ? "btn-primary" : "btn-outline-primary"}`}
-          data-tag-id="english"
-          id="eng"
-          onClick={handleLangChange}
-        >
-          {TEXT.lang.eng}
-        </button>
-        <button
-          type="button"
-          className={`btn ${lang === "hin" ? "btn-primary" : "btn-outline-primary"}`}
-          data-tag-id="hindi"
-          id="hin"
-          onClick={handleLangChange}
-        >
-          {TEXT.lang.hin}
-        </button>
-      </div>
       <form onSubmit={handleFormSubmit} method="POST">
+        <div className="d-flex gap-2">
+          <button
+            data-tag-id="submit-btn"
+            type="submit"
+            className="btn btn-primary"
+          >
+            {" "}
+            {text.form.submit.label}{" "}
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={handleCloseCanvas}
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+            data-tag-id="close-btn"
+          >
+            {" "}
+            {text.form.close.label}{" "}
+          </button>
+          <button
+            type="button"
+            className="ms-auto btn btn-outline-primary"
+            data-tag-id={lang === "eng" ? "hindi" : "english"}
+            id={lang === "eng" ? "hin" : "eng"}
+            onClick={handleLangChange}
+          >
+            {lang === "eng" ? TEXT.lang.hin : TEXT.lang.eng}
+          </button>
+        </div>
         <div
           className="d-flex flex-column mb-3"
           style={{ marginTop: "0.8rem" }}
@@ -107,6 +117,8 @@ const MapForm: React.FC<MapFormProps> = (props) => {
               defaultValue={searchParams.get("destn") || ""}
               type="number"
               id="destn"
+              inputMode="numeric"
+              pattern="\d*"
               min={1}
               name="destn"
               placeholder={text.form.destn.placeholder}
@@ -133,6 +145,8 @@ const MapForm: React.FC<MapFormProps> = (props) => {
             <input
               type="number"
               min={1}
+              inputMode="numeric"
+              pattern="\d*"
               defaultValue={searchParams.get("src") || ""}
               id="src"
               name="src"
@@ -193,28 +207,6 @@ const MapForm: React.FC<MapFormProps> = (props) => {
           {/* <div className="form-text fst-italic">
             Disabled since we only have support for sector 27
           </div> */}
-        </div>
-
-        <div className="d-flex gap-2">
-          <button
-            data-tag-id="submit-btn"
-            type="submit"
-            className="btn btn-primary"
-          >
-            {" "}
-            {text.form.submit.label}{" "}
-          </button>
-          <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={handleCloseCanvas}
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-            data-tag-id="close-btn"
-          >
-            {" "}
-            {text.form.close.label}{" "}
-          </button>
         </div>
       </form>
     </div>
