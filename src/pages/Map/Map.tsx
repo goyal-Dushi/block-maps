@@ -79,17 +79,9 @@ const App: React.FC<AppProps> = () => {
           </>
         ) : (
           <>
-            <div
-              className="input-group mb-3 position-fixed"
-              style={{
-                top: "1.8rem",
-                left: "10%",
-                width: "80%",
-                zIndex: "150",
-              }}
-            >
+            <div className="input-group mb-3 position-fixed search-wrapper">
               <label htmlFor="destn" className="input-group-text">
-                <SearchSvg />
+                <SearchSvg fontSize="1.25rem" />
               </label>
               <input
                 value={destnVal || ""}
@@ -98,7 +90,7 @@ const App: React.FC<AppProps> = () => {
                 onClick={handleCanvas}
                 id="destn"
                 type="number"
-                className="form-control"
+                className="form-control input-control"
                 placeholder={text.form.destn.placeholder}
                 aria-label="find"
               />
