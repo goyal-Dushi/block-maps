@@ -38,7 +38,8 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
         style={{
           width: `${dimension.cols * 50}px`,
           height: `${dimension.rows * 50}px`,
-          zoom: zoom,
+          transformOrigin: "top left",
+          transform: `scale(${zoom})`,
         }}
       >
         {arrangement.map((arrRow, rowInd) => {
