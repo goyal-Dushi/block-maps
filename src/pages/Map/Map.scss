@@ -19,6 +19,7 @@
   width: 100%;
   height: 100%;
   overflow-block: auto;
+  -webkit-overflow-scrolling: touch;
   position: relative;
 
   & .back-btn{
