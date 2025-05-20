@@ -35,7 +35,7 @@ const Actions: React.FC<ActionsProps> = (props) => {
         title="Re-center"
         data-tag-id="recenter-btn"
         onClick={handleReCenter}
-        className="btn btn-primary fw-bold"
+        className="btn btn-warning fw-bold"
       >
         <Recenter />
       </button>
