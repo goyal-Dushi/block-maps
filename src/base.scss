@@ -26,3 +26,8 @@ button {
   cursor: pointer;
   text-decoration: none;
 }
+
+body{
+  touch-action: manipulation;
+  overscroll-behavior: contain;
+}
