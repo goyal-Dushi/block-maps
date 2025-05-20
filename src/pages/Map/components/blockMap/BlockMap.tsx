@@ -24,7 +24,7 @@ export interface BlockMapProps {
 
 const BlockMap: React.FC<BlockMapProps> = (props) => {
   const { arrangement, dimension, path, src, destn } = props;
-  const { handleRecenter, handleZoomIn, handleZoomOut, scrollToView } =
+  const { handleRecenter, handleZoomIn, handleZoomOut, scrollToView, zoom } =
     useMapActions();
   const [userCords, _] = React.useState<UserCordsI>({
     lat: 0,
@@ -38,7 +38,7 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
         style={{
           width: `${dimension.cols * 50}px`,
           height: `${dimension.rows * 50}px`,
-          // zoom: zoom,
+          zoom: zoom,
         }}
       >
         {arrangement.map((arrRow, rowInd) => {
