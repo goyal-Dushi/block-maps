@@ -24,7 +24,7 @@ export interface BlockMapProps {
 
 const BlockMap: React.FC<BlockMapProps> = (props) => {
   const { arrangement, dimension, path, src, destn } = props;
-  const { handleRecenter, handleZoomIn, handleZoomOut, scrollToView, zoom } =
+  const { handleRecenter, handleZoomIn, handleZoomOut, scrollToView } =
     useMapActions();
   const [userCords, _] = React.useState<UserCordsI>({
     lat: 0,
