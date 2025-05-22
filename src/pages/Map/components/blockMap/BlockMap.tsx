@@ -83,11 +83,13 @@ const BlockMap: React.FC<BlockMapProps> = (props) => {
           );
         })}
       </div>
-      <Actions
-        handleReCenter={handleRecenter}
-        handleZoomIn={handleZoomIn}
-        handleZoomOut={handleZoomOut}
-      />
+      <div className="actions-container">
+        <Actions
+          handleReCenter={handleRecenter}
+          handleZoomIn={handleZoomIn}
+          handleZoomOut={handleZoomOut}
+        />
+      </div>
     </>
   );
 };
