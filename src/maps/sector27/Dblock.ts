@@ -94,7 +94,6 @@ export const DblockConfig: Arrangement = [
     },
     {
       type: "main",
-      roadHash: new Set([178]),
       cords: { "28.57706068827807": "77.3275540834843" },
     },
     { type: "main", cords: {} },
@@ -124,6 +123,7 @@ export const DblockConfig: Arrangement = [
     {
       type: "service",
       classes: "border-bottom border-4",
+      roadHash: new Set([178]),
       isGate: true,
       gateProps: {
         text: "Gate 2",
@@ -401,9 +401,9 @@ export const DblockConfig: Arrangement = [
       roadHash: new Set([123]),
       cords: { "28.57584644223264": "77.32731331958755" },
     },
+    { type: "residential", text: "91" },
     { type: "residential", text: "92" },
-    { type: "residential", text: "93", classes: "border-end-0" },
-    { type: "residential", classes: "border-start-0" },
+    { type: "residential", text: "93" },
     { type: "residential", text: "94" },
     { type: "residential", text: "95" },
     { type: "residential", text: "96" },
@@ -444,15 +444,15 @@ export const DblockConfig: Arrangement = [
     },
     {
       type: "service",
-      roadHash: new Set([92]),
+      roadHash: new Set([91]),
       cords: { "28.575843515933368": "77.3274794194484" },
     },
     {
       type: "service",
-      roadHash: new Set([93]),
+      roadHash: new Set([92]),
       cords: { "28.575903778481933": "77.32763286197408" },
     },
-    { type: "service", cords: {} },
+    { type: "service", roadHash: new Set([93]) },
     {
       type: "service",
       roadHash: new Set([94]),
@@ -1651,6 +1651,7 @@ export const DblockConfig: Arrangement = [
     {
       type: "service",
       classes: "border-top border-4",
+      roadHash: new Set([9]),
       isGate: true,
       gateProps: {
         text: "Gate 1",
@@ -1750,7 +1751,6 @@ export const DblockConfig: Arrangement = [
     },
     {
       type: "main",
-      roadHash: new Set([9]),
       cords: {
         "28.574355531837195": "77.32838929100176",
         "28.574437434249784": "77.32785520590515",

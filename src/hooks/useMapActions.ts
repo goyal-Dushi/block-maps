@@ -23,7 +23,7 @@ const useMapActions = () => {
   };
 
   const handleZoomOut = () => {
-    if (zoom === 1.0) {
+    if (zoom === 0.1) {
       return;
     }
     setZoom((prev) => {

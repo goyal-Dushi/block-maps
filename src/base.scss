@@ -26,3 +26,11 @@ button {
   cursor: pointer;
   text-decoration: none;
 }
+
+html,
+body,
+#root {
+  touch-action: auto !important;
+  overscroll-behavior: auto;
+  -ms-touch-action: auto;
+}

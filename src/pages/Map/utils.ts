@@ -97,19 +97,26 @@ export const getIfSrcOrDestn = (
 
 export const checkIfGateOpen = (data: RoadArrangement): boolean => {
   const gateProps = data.gateProps;
-  if (gateProps?.open && !gateProps?.timings) {
+  if (!gateProps) {
     return true;
   }
 
-  const gateTimings = gateProps?.timings;
+  if (gateProps?.open && !gateProps.timings) {
+    return true;
+  }
+
+  const gateTimings = gateProps.timings;
   if (!gateTimings) {
     return true;
   }
 
   const { start, end } = gateTimings;
   const currentHour = new Date().getHours();
+  const currentMinute = new Date().getMinutes();
 
-  if (currentHour >= start && currentHour <= end) {
+  const presentHour = currentHour + currentMinute / 60;
+
+  if (presentHour >= start && presentHour <= end) {
     return true;
   }
 

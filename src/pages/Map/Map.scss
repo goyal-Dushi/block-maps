@@ -1,15 +1,25 @@
 @import './components/index.scss';
 
 .page-wrapper {
-  overflow-x: hidden;
-  overflow-y: auto;
   width: 100%;
+}
+
+.search-wrapper{
+  top: 1.8rem;
+  left: 10%;
+  width: 80%;
+  z-index: 150;
+}
+
+.input-control{
+  font-size: 1.25rem;
 }
 
 .map-window {
   width: 100%;
-  height: 1005;
-  overflow: scroll;
+  height: 100%;
+  overflow-block: auto;
+  -webkit-overflow-scrolling: touch;
   position: relative;
 
   & .back-btn{
