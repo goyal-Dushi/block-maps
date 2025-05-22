@@ -31,8 +31,6 @@ html,
 body,
 #root {
   touch-action: auto !important;
-  overflow: auto !important;
-  position: relative !important;
   overscroll-behavior: auto;
   -ms-touch-action: auto;
 }
